@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>数字展销平台</title>
+    <link type="text/css" rel="stylesheet" href="box.css">
+    <style>
+        #main{margin:20px auto; border:1px solid#163122}
+        .box1{
+            padding: 10px;
+            border: 1px solid#f1f1f0;
+            display: flex;
+            align-items: center;
+            text-decoration:none;
+            background-color: rgb(235, 241, 217);
+        }
+        .left,.middle,.right{
+            float:left;
+        }
+        #main.left{
+            width:200px;
+            height: 490px;
+            background-color: rgb(162, 184, 230);
+        }
+        .left ul>li{
+            list-style: none;
+            width:200px;
+            height:40px;
+            line-height: 40px;
+            margin-top:8px ;
+        }
+        .left a{
+            display:inline-block;
+            width:180px;
+            height:40px;
+            color: rgb(13, 131, 235);
+            padding-left: 20px;
+            text-decoration: none;
+        }
+        .left a:hover{
+            width:200px;
+            height:40px;
+            background-color:#cc9999;
+            cursor:pointer;
+        }
+        .middle{justify-content: center;overflow: hidden;}
+        .middle img{margin:0 10px;}
+        .box2{display: flex;}
+        .img1{display:block;margin-bottom: 10px;}
+        .img2{float: left;margin: 2px;}
+        .right{width:300px;}
+        .box3{
+            border: 5px solid#cae091;background-color: rgb(186, 239, 204);
+        }
+    </style>
+</head>
+<body>
+    <div class="box1"><!--头部导航菜单-->
+        <img src="图书网站logo.png" alt="图书网站logo" width="30px" height="30px">
+    </div>
+<div id="main">
+    <div class="left"><!--左侧栏-->
+        <ul>
+            <li><a href="#">小说</a></li>
+            <li><a href="#">历史</a></li>
+            <li><a href="#">文学</a></li>
+            <li><a href="#">艺术</a></li>
+            <li><a href="#">哲学</a></li>
+        </ul>
+    </div>
+    <div class="middle"><!--中间栏-->
+        <img class="img1" src="图书促销图片.png" alt="图书促销宣传图">
+        <div class="img2">
+            <div class="img2">
+                <img src="计算机导论.jpg" alt="图书1" width="200px" height="200px">
+                <p>计算机导论<br>作者：袁方<br>价格：59.00元</p>
+            </div>
+            <div class="img2">
+                <img src="Linux书.jpg" alt="图书2" width="200px" height="200px">
+                <p>Linux应用于实训教程<br>作者：曲海平，刘飞<br>价格：69.00元</p>
+            </div>
+            <div class="img2">
+                <img src="程序设计基础.jpg" alt="图书3" width="200px" height="200px">
+                <p>程序设计基础<br>作者：张小峰，刘慧<br>价格：79.00元</p>
+            </div>
+        </div>
+    </div>
+    <div class="right">
+        <img src="图书活动.jpg" alt="促销图书" width="300px" height="500px">
+        <div class="box3">
+            <h1>活动期间优惠</h1>
+            <ul>
+                <p>全场图书满100减30，满200减80，多买多减</p>
+                <p>新用户注册即送20元优惠劵，可叠加使用</p>
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
