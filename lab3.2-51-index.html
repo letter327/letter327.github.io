@@ -4,7 +4,41 @@
     <title>数字展销平台</title>
     <link type="text/css" rel="stylesheet" href="box.css">
     <style>
-        #main{margin:20px auto; border:1px solid#163122}
+        #main{margin:0; auto; border:3px solid#6a8845;}
+        *{
+            margin:0;
+            padding:0;
+            list-style: none;
+            text-decoration: none;
+        }
+        .nav{
+            height: 40px;
+            background: #cae091;
+            
+        }
+        .navlist{
+            display: flex;
+            align-items: center;
+        }
+        .navlist img{
+            margin-right: 700px;
+        }
+        .navlist li{
+            float: left;
+            height: 40px;
+            width: 80px;
+            text-align: right;
+            line-height: 40px;
+            margin:0 10px;
+        }
+        .navlist a{
+            color:rgb(8, 8, 8);
+            display: block;
+           
+        }
+        .navlist a:hover{
+            background: rgb(41, 126, 72);
+        }
         .box1{
             padding: 10px;
             border: 1px solid#f1f1f0;
@@ -15,6 +49,7 @@
         }
         .left,.middle,.right{
             float:left;
+            margin-top: 5px;
         }
         #main.left{
             width:200px;
@@ -26,21 +61,54 @@
             width:200px;
             height:40px;
             line-height: 40px;
-            margin-top:8px ;
         }
         .left a{
             display:inline-block;
             width:180px;
             height:40px;
-            color: rgb(13, 131, 235);
+            color: rgb(0, 0, 0);
             padding-left: 20px;
             text-decoration: none;
         }
         .left a:hover{
             width:200px;
             height:40px;
-            background-color:#cc9999;
+            background-color:#b2e992;
             cursor:pointer;
+        }
+         .book-container {
+            height: 200px;
+            weight:200px;
+            margin: 20px auto; /* 居中显示 */
+            padding: 15px;
+            border: 2px solid #ccc; /* 边框 */
+        }
+        /* 书籍列表盒子 */
+        .book-list {
+            display: flex;/* 横向排列 */
+            gap: 15px; /* 书籍间距 */
+        }
+        
+        /* 单本书籍盒子 */
+        .book-item {
+            padding: 10px;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+        
+        .book-img {
+            margin: 0 auto 10px;
+            background-color: #f0f0f0;
+        }
+        
+        .book-name {
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        
+        .book-price {
+            color: #e53e3e;
+            margin: 5px 0;
         }
         .middle{justify-content: center;overflow: hidden;}
         .middle img{margin:0 10px;}
@@ -49,16 +117,26 @@
         .img2{float: left;margin: 2px;}
         .right{width:300px;}
         .box3{
-            border: 5px solid#cae091;background-color: rgb(186, 239, 204);
+            border: 5px solid#cae091;background-color: rgb(247, 248, 247);
         }
     </style>
 </head>
 <body>
-    <div class="box1"><!--头部导航菜单-->
-        <img src="图书网站logo.png" alt="图书网站logo" width="30px" height="30px">
+    <div class="nav"><!--头部导航菜单-->
+        <nav class="navlist">
+            <img src="图书网站logo.png" alt="图书网站logo" width="30px" height="30px">
+                <ul>
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#">小说</a></li>
+                    <li><a href="#">科技</a></li>
+                    <li><a href="#">历史</a></li>
+                    <li><a href="#">文学</a></li>
+                </ul>
+        </nav>
     </div>
 <div id="main">
     <div class="left"><!--左侧栏-->
+        <h3>图书分类导航</h3>
         <ul>
             <li><a href="#">小说</a></li>
             <li><a href="#">历史</a></li>
@@ -82,17 +160,39 @@
                 <img src="程序设计基础.jpg" alt="图书3" width="200px" height="200px">
                 <p>程序设计基础<br>作者：张小峰，刘慧<br>价格：79.00元</p>
             </div>
+            <h3>新书上市</h3>
+            <div class="book-list">
+            <div class="book-item">
+                <div class="book-img"><img src="web开发.png" alt="web开发" width="150px" height="200px"></div>
+                <div class="book-name">编程入门指南</div>
+                <div class="book-price">¥59.00</div>
+            </div>
+            <div class="book-item">
+                <div class="book-img"><img src="设计思维.jpg" alt="设计思维"  width="200px" height="200px"></div>
+                <div class="book-name">设计思维</div>
+                <div class="book-price">¥45.00</div>
+            </div>
+            <div class="book-item">
+                <div class="book-img"><img src="数据分析.avif" alt="数据分析实战" width="180px" height="200px"></div>
+                <div class="book-name">数据分析实战</div>
+                <div class="book-price">¥69.00</div>
+            </div>
+            </div>
         </div>
     </div>
+    <!-- 修改右侧栏结构，将优惠区放在图片上方，突出活动 -->
     <div class="right">
-        <img src="图书活动.jpg" alt="促销图书" width="300px" height="500px">
         <div class="box3">
-            <h1>活动期间优惠</h1>
+            <h3>活动期间优惠</h3> 
             <ul>
-                <p>全场图书满100减30，满200减80，多买多减</p>
-                <p>新用户注册即送20元优惠劵，可叠加使用</p>
+                <li>全场图书满100减30，满200减80，多买多减</li>
+                <li>新用户注册即送20元优惠劵，可叠加使用</li>
             </ul>
         </div>
+        
+        <img src="图书活动.jpg" alt="促销图书" width="300px" height="400px"> <!-- 缩小图片高度 -->
     </div>
+    
 </div>
 </body>
+           
