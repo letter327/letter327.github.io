@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>数字展销平台</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css">
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            list-style: none;
+            text-decoration: none;
+        }
+        /* 导航栏固定定位 */
+        .nav{
+            height: 40px;
+            background: #cae091;
+            position: fixed; /* 固定定位 */
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100; /* 最高层级，避免被遮挡 */
+        }
+        .navlist{
+            margin-left: 20px;
+            display: flex;
+            align-items: center;
+            height: 100%;
+        }
+        .navlist img{
+            margin-right: 700px;
+        }
+        .navlist > ul{
+            display: flex;
+        }
+        .navlist li{
+            height: 40px;
+            width: 80px;
+            text-align: center;
+            line-height: 40px;
+            margin:0 10px;
+            position: relative; /* 相对定位，作为下拉菜单父容器 */
+        }
+        .navlist a{
+            color:rgb(8, 8, 8);
+            display: block;
+        }
+        .navlist a:hover{
+            background: rgb(41, 126, 72);
+        }
+        /* 下拉菜单 - 绝对定位 */
+        .droplist{
+            background-color: #b75034;
+            display: none; /* 默认隐藏 */
+            position: absolute; /* 绝对定位 */
+            top: 40px;
+            left: 0;
+            width: 100px;
+            z-index: 101; /* 高于导航栏 */
+        }
+        .dh:hover .droplist{
+            display: block;
+            background-color: #e1e8e1;
+        }
+        .droplist a:hover{
+            background-color: #aeb6d6;
+        }
+        
+        /* 主内容区 */
+        #main-container{
+            margin-top: 50px; /* 避开固定导航栏 */
+            display: flex;
+        }
+        
+        /* 左侧栏 */
+        .left{
+            width:200px;
+            height: 600px;
+            background-color: rgb(162, 184, 230);
+            margin-right: 10px;
+            padding-top: 10px;
+        }
+        .left h3{
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        .left ul>li{
+            width:200px;
+            height:40px;
+            line-height: 40px;
+        }
+        .left a{
+            display:inline-block;
+            width:180px;
+            height:40px;
+            color: rgb(0, 0, 0);
+            padding-left: 20px;
+        }
+        .left a:hover{
+            width:200px;
+            height:40px;
+            background-color:#b2e992;
+            cursor:pointer;
+        }
+        
+        /* 筛选菜单 */
+        .filter-bar{
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .filter-item{
+            display: inline-block;
+            margin-right: 20px;
+            position: relative; /* 相对定位，作为下拉筛选容器 */
+        }
+        .filter-title{
+            cursor: pointer;
+            color: #333;
+            font-weight: bold;
+        }
+        .filter-options{
+            display: none; /* 默认隐藏 */
+            position: absolute; /* 绝对定位 */
+            top: 30px;
+            left: 0;
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 10px;
+            width: 150px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 90;
+        }
+        .filter-item:hover .filter-options{
+            display: block; /* 鼠标悬停显示 */
+        }
+        .filter-options li{
+            padding: 5px 0;
+        }
+        .filter-options li:hover{
+            background-color: #f0f0f0;
+        }
+        
+        /* 中间栏 */
+        .middle{
+            flex: 1;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .img-play-container {
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .cover-img{
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 20px solid white;
+            margin-left: 2px;
+        }
+        .hidden-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background-color: rgba(0,0,0,0.6); /* rgba控制背景透明度 */
+            display: none;
+            align-items: center;
+            justify-content: center;
+            opacity: 50%; /* 初始透明 */
+        }
+        .img-play-container:hover .hidden-play-btn {
+            display: flex;
+            opacity: 1; /* 悬停时完全显示 */
+        }
+        #videoPlayer {
+            width: 100%;
+            height: 300px;
+            display: none;
+        }
+        
+        /* 书籍列表 */
+        .section-title {
+            color: #2d6a4f;
+            margin: 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #cae091;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-title a {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .book-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .book-item {
+            padding: 10px;
+            border: 1px solid #eee;
+            text-align: center;
+            width: 200px;
+            position: relative; /* 相对定位，作为详情容器 */
+            overflow: visible; /* 隐藏溢出内容 */
+        }
+        .book-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .book-img {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative; /* 图片放大预览容器 */
+        }
+        .book-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .preview-img{
+            position: absolute;
+            top: -100px;
+            left: 100%;
+            width: 300px;
+            height: auto;
+            border: 5px solid white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            z-index: 80;
+            display: none; /* 默认隐藏 */
+        }
+        .book-img:hover .preview-img{
+            display: block; /* 悬停显示大图 */
+        }
+        
+        /* 书籍详情 - 隐藏显示效果 */
+        .book-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255,255,255,0.9); /* 半透明背景 */
+            padding: 10px;
+            box-sizing: border-box;
+            transform: translateY(100%); /* 初始隐藏在下方 */
+            transition: transform 0.3s ease;
+            opacity: 0; /* 初始透明 */
+        }
+        .book-item:hover .book-details {
+            transform: translateY(0); /* 显示详情 */
+            opacity: 1; /* 完全不透明 */
+        }
+        .book-name {
+            font-weight: bold;
+            margin: 5px 0;
+            white-space: nowrap;
+            overflow: hidden; /* 溢出隐藏 */
+        }
+        .book-price {
+            color: #e53e3e;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .book-rating {
+            color: #ffc107;
+            margin: 5px 0;
+        }
+        .add-to-cart {
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart:hover {
+            background-color: #1b4332;
+        }
+        
+        /* 右侧栏 */
+        .right {
+            width: 300px;
+        }
+        .box3 {
+            border: 5px solid #cae091;
+            background-color: rgb(247, 248, 247);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .box3 h3 {
+            color: #d9534f;
+            margin-bottom: 10px;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 5px;
+        }
+        .box3 ul li {
+            margin: 8px 0;
+            position: relative;
+            padding-left: 15px;
+        }
+        .box3 ul li:before {
+            content: "•";
+            color: #2d6a4f;
+            position: absolute;
+            left: 0;
+        }
+        .promo-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: opacity 0.5s ease; /* 透明度渐变 */
+        }
+        /* 半透明遮罩层示例 */
+        .mask-example {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5); /* 半透明黑色遮罩 */
+            z-index: 150;
+            display: none; /* 默认隐藏 */
+            justify-content: center;
+            align-items: center;
+        }
+        .mask-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            width: 500px;
+        }
+        .close-mask {
+            float: right;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #f5f5f5;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏（固定定位） -->
+    <div class="nav">
+        <nav class="navlist">
+            <img src="图书网站logo.png" alt="图书网站logo" width="30px" height="30px">
+            <ul>
+                <li class="dh"><a href="#">首页</a></li>
+                <li class="dh"><a href="#">小说</a>
+                    <ul class="droplist"> <!-- 下拉菜单（绝对定位） -->
+                        <li><a href="#">科幻小说</a></li>
+                        <li><a href="#">言情小说</a></li>
+                        <li><a href="#">悬疑小说</a></li>
+                    </ul>
+                </li>
+                <li class="dh"><a href="#">科技</a>
+                    <ul class="droplist">
+                        <li><a href="#">人工智能</a></li>
+                        <li><a href="#">编程开发</a></li>
+                        <li><a href="#">航天航空</a></li>
+                    </ul>
+                </li>
+                <li class="dh"><a href="#">历史</a></li>
+                <li class="dh"><a href="#">文学</a></li>
+                <li class="dh"><a href="#">用户</a>
+                    <ul class="droplist">
+                        <li><a href="#">个人中心</a></li>
+                        <li><a href="#">我的订单</a></li>
+                        <li><a href="#">收藏夹</a></li>
+                        <li><a href="#">设置</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- 主内容区 -->
+    <div id="main-container">
+        <!-- 左侧栏 -->
+        <div class="left">
+            <h3>图书分类导航</h3>
+            <ul>
+                <li><a href="#">小说</a></li>
+                <li><a href="#">历史</a></li>
+                <li><a href="#">文学</a></li>
+                <li><a href="#">艺术</a></li>
+                <li><a href="#">哲学</a></li>
+                <li><a href="#">科技</a></li>
+                <li><a href="#">经济</a></li>
+                <li><a href="#">教育</a></li>
+                <li><a href="#">医学</a></li>
+                <li><a href="#">军事</a></li>
+            </ul>
+        </div>
+
+        <!-- 中间栏 -->
+        <div class="middle">
+            <!-- 视频播放区域 -->
+            <div class="img-play-container" onclick="showVideo()">
+                <img src="展销图片横.png" alt="图书活动封面" class="cover-img">
+                <div class="hidden-play-btn">
+                    <div class="play-icon"></div>
+                </div>
+            </div>
+            <!-- 筛选栏 -->
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <span class="filter-title">按分类筛选</span>
+                    <ul class="filter-options">
+                        <li><a href="#">全部图书</a></li>
+                        <li><a href="#">新书上市</a></li>
+                        <li><a href="#">畅销图书</a></li>
+                        <li><a href="#">折扣图书</a></li>
+                    </ul>
+                </div>
+                <div class="filter-item">
+                    <span class="filter-title">按价格筛选</span>
+                    <ul class="filter-options">
+                        <li><a href="#">0-50元</a></li>
+                        <li><a href="#">50-100元</a></li>
+                        <li><a href="#">100-200元</a></li>
+                        <li><a href="#">200元以上</a></li>
+                    </ul>
+                </div>
+                <div class="filter-item">
+                    <span class="filter-title">按评分筛选</span>
+                    <ul class="filter-options">
+                        <li><a href="#">4分以上</a></li>
+                        <li><a href="#">3分以上</a></li>
+                        <li><a href="#">2分以上</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 新书上市区域 -->
+            <div class="section-title">
+                <h3>新书上市</h3>
+                <a href="#">查看更多 →</a>
+            </div>
+            <div class="book-list">
+                <div class="book-item">
+                    <div class="book-img">
+                        <img src="web开发.png" alt="web开发">
+                        <img src="web开发.png" alt="web开发预览" class="preview-img">
+                    </div>
+                    <div class="book-name">编程入门指南：从零基础到精通Web开发</div>
+                    <div class="book-price">¥59.00</div>
+                    <button class="add-to-cart" onclick="showMask()"></button><i class="fa fa-shopping-cart"></i> 加入购物车</button>
+                    <div class="book-details">
+                        <p><strong>作者：</strong>小甲鱼</p>
+                        <p><strong>出版社：</strong>科技出版社</p>
+                        <p><strong>简介：</strong>本书适合零基础学习者，涵盖HTML、CSS、JavaScript等Web开发必备知识。</p>
+                    </div>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-img">
+                        <img src="设计思维.jpg" alt="设计思维">
+                        <img src="设计思维.jpg" alt="设计思维预览" class="preview-img">
+                    </div>
+                    <div class="book-name">设计思维：创新问题解决方法与实践</div>
+                    <div class="book-price">¥45.00</div>
+                    <button class="add-to-cart" onclick="showMask()"><i class="fa fa-shopping-cart"></i> 加入购物车</button>
+                    <div class="book-details">
+                        <p><strong>作者：</strong>付志勇</p>
+                        <p><strong>出版社：</strong>艺术出版社</p>
+                        <p><strong>简介：</strong>详解设计思维的五大阶段，通过案例展示如何应用于实际问题解决。</p>
+                    </div>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-img">
+                        <img src="数据分析.avif" alt="数据分析实战">
+                        <img src="数据分析.avif" alt="数据分析预览" class="preview-img">
+                    </div>
+                    <div class="book-name">数据分析实战：从数据到决策的完整流程</div>
+                    <div class="book-price">¥69.00</div>
+                    <button class="add-to-cart" onclick="showMask()"><i class="fa fa-shopping-cart"></i> 加入购物车</button>
+                    <div class="book-details">
+                        <p><strong>作者：</strong>颜锦江</p>
+                        <p><strong>出版社：</strong>统计出版社</p>
+                        <p><strong>简介：</strong>从数据收集、清洗到分析、可视化，全程实战案例教学。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧栏 -->
+        <div class="right">
+            <div class="box3">
+                <h3>活动期间优惠</h3> 
+                <ul>
+                    <li>全场图书满100减30,满200减80,多买多减</li>
+                    <li>新用户注册即送20元优惠劵,可叠加使用</li>
+                    <li>每日签到领取积分,积分可兑换图书</li>
+                    <li>会员专享8折优惠,还可参与限量秒杀</li>
+                    <li>购买套装图书额外赠送精美书签</li>
+                </ul>
+            </div>
+            <img src="图书活动.jpg" alt="促销图书" class="promo-img">
+        </div>
+    </div>
+
+    <!-- 半透明遮罩层示例 -->
+    <div class="mask-example" id="mask">
+        <div class="mask-content">
+            <span class="close-mask" onclick="hideMask()">&times;</span>
+            <h3>加入购物车成功！</h3>
+            <p>商品已添加到您的购物车，是否现在去结算？</p>
+            <button class="add-to-cart" style="width: auto; margin-right: 10px;">去结算</button>
+            <button class="add-to-cart" style="width: auto; background-color: #6c757d;" onclick="hideMask()">继续购物</button>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <p>2023 数字展销平台 版权所有</p>
+    </footer>
+</body>
+</html>
