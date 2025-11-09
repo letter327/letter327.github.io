@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            *{
+                margin: 0;
+                padding: 0;
+            }
+            form{
+                background: #dbeeff;
+                max-width: 420px;
+                margin:30px auto;
+                border-radius: 8px;
+                padding:30px;
+                border:1px solid rgba(red, green, blue, alpha);
+                box-shadow:0 2px 8px;
+            }
+            .form-item{
+                margin-bottom: 20px;
+            }
+            label{
+                display: block;
+                margin-bottom: 8px;
+                color: #333;
+            }
+            .remember{
+                margin-bottom: 20px;
+                color: #666;
+            }
+            body{
+                display:flex;
+                align-items: center;
+            }
+            input[type="button"]{
+                width:100%;
+                padding:12px;
+                background-color: rgb(45, 67, 236);
+                color: #f0e7df;
+                border: #333;
+                border-radius: 4px;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="" method="get" target="_self">
+            <label>用户名：<input type="text" name="user" value="" placeholder="用户名/邮箱"></label><br>
+            <label>密码：<input type="password" name="password" value="" placeholder="密码"></label><br>
+            <label><input type="radio" name="remember" value="">记住我</label><br>
+            <input type="button" name="button" value="登录"/>
+        </form>
+    </body>
+</html>
