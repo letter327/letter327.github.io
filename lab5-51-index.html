@@ -3,6 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>图书推荐表单</title>
+        <link rel="stylesheet" href="form.css">
         <style>
             *{
                 margin:0;
@@ -360,58 +361,6 @@
                 background-color: #f5f5f5;
                 margin-top: 30px;
             }
-            ::placeholder{color: rgb(135, 148, 157);}
-            :focus{color:rgb(0, 0, 0)}
-            form{
-                width:600px;
-                margin:30px auto;
-                padding:20px;
-                border-radius:10px;
-                box-shadow:0 2px 10px;
-                background-color: #eff6f8;
-            }
-            .form-group{
-                margin-bottom:15px;
-                display:flex;
-                align-items: center;
-            }
-            .gender-group{
-                display:flex;
-                align-items: center;
-            }
-            .gender-group label{
-                margin: 0;
-            }
-            input[type="radio"],input[type="checkbox"]{
-                width:auto;
-            }
-            fieldset{
-                border:1px solid #ddd;
-                border-radius: 8px;
-                margin-bottom: 20px;
-                padding:15px;
-            }
-            legend{
-                color:#022463;
-                padding: 0 10px;
-            }
-            input,select,textarea{
-                padding: 8px;
-                margin:5px 0;
-                border:1px solid #ccc;
-                border-radius: 4px;
-                width:250px;
-                box-sizing: border-box;
-            }
-            textarea{
-                width:400px;
-                height:100px;
-                background-size: cover;
-            }
-            label{
-                width: 100px;
-                display:block;
-            }
         </style>
     </head>
     <body>
@@ -438,7 +387,7 @@
                     <li class="dh"><a href="#">文学</a></li>
                     <li class="dh"><a href="#">用户</a>
                         <ul class="droplist">
-                            <li><a href="javascript:void(0)" onclick="goToLogin">个人中心</a></li>
+                            <li><a href="https://letter327.github.io/tail-index.html">登录/注册</a></li>
                             <li><a href="#">我的订单</a></li>
                             <li><a href="#">收藏夹</a></li>
                             <li><a href="#">设置</a></li>
@@ -607,7 +556,7 @@
                 <legend><img src="基本信息.png" alt="" height="20px" width="20px">基本信息</legend>
                 <div clsaa="form-group">
                     <div class="gender-group">
-                        <label>♂性别：</label>
+                        <label style="width: 110px;">♂性别：</label>
                         <input type="radio" name="gender" value="" id="man">
                         <label for="man">男</label>
                         <input type="radio" name="gender" value="" id="woman" checked>
@@ -615,11 +564,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <lable for="date">📅出生日期:</lable>
+                    <lable for="date" style="width: 110px;">📅出生日期:</lable>
                     <input type="date" name="date" value="" id="date">
                 </div>
                 <div class="form-group">
-                    <lable><img src="所在省份.png" alt="" width="20px" height="20px">所在地区：</lable>
+                    <lable style="width: 110px;"><img src="所在省份.png" alt="" width="20px" height="20px">所在地区：</lable>
                     <select name="country">
                     <option value="selection">请选择</option>
                     <option value="beijing">北京市</option>
@@ -659,32 +608,36 @@
                     </select><br>
                 </div>
                 <div class="form-group">
-                    <label for="email">📫邮箱：</label>
+                    <label for="email" style="width: 110px;">📫邮箱：</label>
                     <input type="email" name="email" value="" id="email">
                 </div>
                 <div class="form-group">
-                    <label>📞电话号码：</label>
-                    <input type="number" name="number" value="" id="email">
+                    <label style="width: 110px;" for="number">📞电话号码：</label>
+                    <input type="number" name="number" value="" id="number">
                 </div>
             </fieldset>
             <div class="form-group">
                 图书兴趣：<input type="checkbox" name="booktype" value="" id="literature">
-                <label for="literature">文学小说</label>
+                <label for="literature" style="width: 75px;">文学小说</label>
                 <input type="checkbox" name="booktype" value="" id="science">
-                <lable for="science">科技科普</lable>
+                <lable for="science" style="width: 75px;">科技科普</lable>
                 <input type="checkbox" name="booktype" value="" id="history">
-                <lable for="history">历史人文</lable>
+                <lable for="history" style="width: 75px;">历史人文</lable>
                 <input type="checkbox" name="booktype" value="" id="art">
-                <lable for="art">艺术设计</lable>
+                <lable for="art" style="width: 75px;">艺术设计</lable>
                 <input type="checkbox" name="booktype" value="" id="grow">
-                <lable for="grow">自我成长</lable><br>
+                <lable for="grow" style="width: 75px;">自我成长</lable><br>
             </div>
             <div class="form-group">
                 <textarea name="messge" rows="8" cols="50" id="message" placeholder="请输入留言内容"></textarea>
             </div>
-            <input type="file" name="image" accept="image/"><br>
-            <label><input type="reset" name="reset" value="重置数据"></label>
-            <label><input type="submit" name="submit" value="确认提交"></label>
+            <div class="form-group">
+                <input type="file" name="image" accept="image/"><br>
+                <label style="margin-left: 80px;"><input type="reset" name="reset" value="重置数据"></label>
+            </div>
+            <div class="form-group">
+                <label style="margin-left: 150px;"><input type="submit" name="submit" value="确认提交"></label>
+            </div>
             <footer>
                 <p>2023 数字展销平台 版权所有</p>
             </footer>
