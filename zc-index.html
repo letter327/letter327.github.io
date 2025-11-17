@@ -16,18 +16,18 @@
             display: flex;
             align-items: center;
             justify-content: center; /* 水平居中 */
-            background-color: #f5f7fa; /* 页面背景色 */
+            background-color: #f5f7f9; /* 页面背景色 */
             font-family: "Microsoft YaHei", sans-serif; /* 统一字体 */
         }
         
         form {
-            background: #d3effb; /* 白色背景更清爽 */
+            background: #cee1f3; 
             width: 100%;
             max-width: 420px;
             margin: 20px; /* 移动端留边距 */
             border-radius: 12px; /* 更大的圆角更现代 */
             padding: 40px 30px;
-            border: 1px solid #e8f4f8; /* 淡色边框 */
+            border: 1px solid #b0e1f1; /* 淡色边框 */
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 柔和阴影 */
         }
 
@@ -124,26 +124,20 @@
 </head>
 <body>
     <form>
-        <h3>登录</h3>
+        <h3>注册</h3>
         <div class="form-item">
-            <label for="user">用户名/邮箱</label>
-            <input type="text" id="user" name="user" value="" placeholder="请输入用户名或邮箱">
+            <label for="user">手机号：</label>
+            <input type="text" id="user" name="user" value="" placeholder="请输入手机号">
         </div> 
-
         <div class="form-item">
-            <label for="password">密码</label>
+            <label for="password">密码：</label>
             <input type="password" id="password" name="password" value="" placeholder="请输入密码">
         </div>
-
-        <div class="remember">
-            <input type="radio" id="remember" name="remember" value="1">
-            <label for="remember">记住我</label>
+        <div class="form-item">
+            <label for="password">确认密码：</label>
+            <input type="password" id="password" name="password" value="" placeholder="请再次输入密码">
         </div>
-
-        <input type="button" name="button" value="登录">
-        <div class="auth-btn">
-            <a href="https://letter327.github.io/zc-index.html">注册账户</a>
-        </div>
+        <input type="button" name="button" value="立即注册">
     </form>
 </body>
 </html>

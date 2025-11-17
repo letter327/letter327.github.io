@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数字展销平台</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            list-style: none;
+            text-decoration: none;
+            box-sizing: border-box;
+        }
+        
+        /* 全局样式 */
+        body {
+            color: #333;
+            background-color: #f9f9f9;
+            line-height: 1.6;
+            font-size: 18px; /* 保持之前的字体放大设置 */
+        }
+        
+        /* 导航栏固定定位 */
+        .nav{
+            height: 60px;
+            background: #2d6a4f;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav.scroll {
+            background: #1b4332;
+            height: 50px;
+        }
+        
+        .navlist{
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 20px;
+        }
+        
+        .navlist .logo {
+            display: flex;
+            align-items: center;
+            margin-right: 50px;
+        }
+        
+        .navlist img{
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+        
+        .navlist .logo-text {
+            color: white;
+            font-size: 1.4rem;
+            font-weight: bold;
+        }
+        
+        .navlist > ul{
+            display: flex;
+            flex: 1;
+            margin-left: 500px;
+        }
+        
+        .navlist li{
+            height: 100%;
+            padding: 0 20px;
+            text-align: center;
+            line-height: 60px;
+            position: relative;
+        }
+        
+        .nav.scroll li {
+            line-height: 50px;
+        }
+        
+        .navlist a{
+            color: white;
+            display: block;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* 导航栏图标样式 */
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            object-fit: contain;
+        }
+        
+        .navlist li:hover {
+            background: #40916c;
+        }
+        
+        .navlist li:hover > a {
+            color: #f8f9fa;
+        }
+        
+        /* 下拉菜单 */
+        .droplist{
+            background-color: #ffffff;
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            min-width: 180px;
+            z-index: 101;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border-radius: 0 0 4px 4px;
+            overflow: hidden;
+        }
+        
+        .dh:hover .droplist{
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .droplist li{
+            height: 45px;
+            line-height: 45px;
+            padding: 0 20px;
+            text-align: left;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .droplist li:last-child {
+            border-bottom: none;
+        }
+        
+        .droplist a{
+            color: #333;
+            justify-content: flex-start;
+        }
+        
+        .droplist li:hover{
+            background-color: #f8f9fa;
+            padding-left: 25px;
+        }
+        
+        .droplist li:hover a{
+            color: #2d6a4f;
+        }
+        
+        /* 主内容区 */
+        #main-container{
+            max-width: 1400px;
+            margin: 80px auto 30px;
+            display: flex;
+            gap: 20px;
+        }
+        
+        /* 左侧栏 */
+        .left{
+            width:220px;
+            height: calc(100vh - 130px);
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 20px 0;
+            position: sticky;
+            top: 80px;
+            overflow-y: auto;
+            z-index: 10;
+        }
+        
+        .left h3{
+            padding-left: 25px;
+            margin-bottom: 20px;
+            color: #2d6a4f;
+            font-size: 1.1rem;
+            position: relative;
+        }
+        
+        .left h3:before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 16px;
+            background: #2d6a4f;
+            border-radius: 2px;
+        }
+        
+        .left ul>li{
+            width:100%;
+            height:45px;
+            line-height: 45px;
+        }
+        
+        .left a{
+            display:inline-block;
+            width:100%;
+            height:45px;
+            color: #333;
+            padding-left: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .left a:hover{
+            background-color:#f0f7f3;
+            color: #2d6a4f;
+            padding-left: 30px;
+        }
+        
+        .icon{
+            margin-right: 10px;
+            vertical-align: middle;
+            color: #2d6a4f;
+        }
+        
+        /* 筛选菜单（核心修改：图二样式） */
+        .filter-bar{
+            background-color: transparent; /* 去掉背景色 */
+            padding: 15px 0; /* 减少左右内边距 */
+            margin-bottom: 10px; /* 减少底部间距 */
+            border-radius: 0; /* 去掉圆角 */
+            box-shadow: none; /* 去掉阴影 */
+        }
+        
+        .filter-item{
+            display: inline-block;
+            margin-right: 30px;
+            position: relative;
+            font-weight: 500; /* 加粗文字 */
+            color: #333;
+        }
+        
+        .filter-title{
+            cursor: pointer;
+            font-size: 1rem;
+            display: inline; /* 取消flex布局，改为行内显示 */
+        }
+        
+        /* 删除下拉箭头 */
+        .filter-title img {
+            display: none !important;
+        }
+        
+        .filter-options{
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            border: 1px solid #eee;
+            padding: 15px;
+            width: 160px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            z-index: 90;
+            border-radius: 8px;
+            margin-top: 5px;
+        }
+        
+        .filter-item:hover .filter-options{
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .filter-options li{
+            padding: 8px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-options li a{
+            color: #333;
+            display: block;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-options li:hover{
+            background-color: #f0f7f3;
+            padding-left: 5px;
+        }
+        
+        .filter-options li:hover a{
+            color: #2d6a4f;
+        }
+        
+        /* 中间栏 */
+        .middle{
+            flex: 1;
+        }
+        
+        .img-play-container {
+            position: relative;
+            cursor: pointer;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .cover-img{
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .img-play-container:hover .cover-img {
+            transform: scale(1.02);
+        }
+        
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-top: 16px solid transparent;
+            border-bottom: 16px solid transparent;
+            border-left: 26px solid white;
+            margin-left: 4px;
+        }
+        
+        .hidden-play-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background-color: rgba(0,0,0,0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .img-play-container:hover .hidden-play-btn {
+            display: flex;
+            opacity: 1;
+        }
+        
+        #videoPlayer {
+            width: 100%;
+            height: 320px;
+            display: none;
+            border-radius: 8px;
+        }
+        
+        .section-title {
+            color: #2d6a4f;
+            margin: 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #cae091;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .section-title a {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        .book-list {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .book-item {
+            padding: 10px;
+            border: 1px solid #eee;
+            text-align: center;
+            width: 200px;
+            position: relative; /* 相对定位，作为详情容器 */
+            overflow: visible; /* 隐藏溢出内容 */
+        }
+        .book-item:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .book-img {
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            position: relative; /* 图片放大预览容器 */
+        }
+        .book-img img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        .preview-img{
+            position: absolute;
+            top: -100px;
+            left: 100%;
+            width: 300px;
+            height: auto;
+            border: 5px solid white;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            z-index: 80;
+            display: none; /* 默认隐藏 */
+        }
+        .book-img:hover .preview-img{
+            display: block; /* 悬停显示大图 */
+        }
+        
+        /* 书籍详情 - 隐藏显示效果 */
+        .book-details {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255,255,255,0.9); /* 半透明背景 */
+            padding: 10px;
+            box-sizing: border-box;
+            transform: translateY(100%); /* 初始隐藏在下方 */
+            transition: transform 0.3s ease;
+            opacity: 0; /* 初始透明 */
+        }
+        .book-item:hover .book-details {
+            transform: translateY(0); /* 显示详情 */
+            opacity: 1; /* 完全不透明 */
+        }
+        .book-name {
+            font-weight: bold;
+            margin: 5px 0;
+            white-space: nowrap;
+            overflow: hidden; /* 溢出隐藏 */
+        }
+        .book-price {
+            color: #e53e3e;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .book-rating {
+            color: #ffc107;
+            margin: 5px 0;
+        }
+        .add-to-cart {
+            background-color: #2d6a4f;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .add-to-cart:hover {
+            background-color: #1b4332;
+        }
+        
+        /* 右侧栏 */
+        .right {
+            width: 300px;
+            z-index: 10;
+        }
+        
+        .box3 {
+            border: none;
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .box3 h3 {
+            color: #2d6a4f;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #f0f7f3;
+            padding-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .box3 h3 img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+        
+        .box3 ul li {
+            margin: 12px 0;
+            position: relative;
+            padding-left: 20px;
+            font-size: 1.05rem;
+            color: #555;
+        }
+        
+        .box3 ul li:before {
+            content: "•";
+            color: #2d6a4f;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+        
+        .box3 ul li:hover {
+            color: #2d6a4f;
+            cursor: pointer;
+        }
+        
+        .promo-img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: all 0.5s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        
+        .promo-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* 页脚 */
+        footer {
+            text-align: center;
+            padding: 30px 20px;
+            background-color: #2d6a4f;
+            color: white;
+            margin-top: 50px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 20px 0;
+        }
+        
+        .footer-links a {
+            color: #f0f7f3;
+            transition: all 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #d1e7d8;
+        }
+        
+       
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="nav">
+        <nav class="navlist">
+            <div class="logo">
+                <img src="图书网站logo.png" alt="图书网站logo">
+                <span class="logo-text">数字展销平台</span>
+            </div>
+            <ul>
+                <li class="dh"><a href="https://letter327.github.io/5form-index.html"><img src="订阅.png" class="icon" width="20px" height="20px">订阅</a></li>
+                <li class="dh"><a href="#"><img src="读小说.png" alt="小说图标" class="nav-icon">小说</a>
+                    <ul class="droplist">
+                        <li><a href="#">科幻小说</a></li>
+                        <li><a href="#">言情小说</a></li>
+                        <li><a href="#">悬疑小说</a></li>
+                    </ul>
+                </li>
+                <li class="dh"><a href="#"><img src="科技logo.png" alt="科技图标" class="nav-icon">科技</a>
+                    <ul class="droplist">
+                        <li><a href="#">人工智能</a></li>
+                        <li><a href="#">编程开发</a></li>
+                        <li><a href="#">航天航空</a></li>
+                    </ul>
+                </li>
+                <li class="dh"><a href="#"><img src="历史logo.png" alt="历史图标" class="nav-icon">历史</a></li>
+                <li class="dh"><a href="#"><img src="文学logo.png" alt="文学图标" class="nav-icon">文学</a></li>
+                <li class="dh"><a href="#"><img src="用户.png" alt="用户图标" class="nav-icon">用户</a>
+                    <ul class="droplist">
+                        <li><a href="https://letter327.github.io/tail-index.html">登录/注册</a></li>
+                        <li><a href="#">我的订单</a></li>
+                        <li><a href="#">收藏夹</a></li>
+                        <li><a href="#">设置</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- 主内容区 -->
+    <div id="main-container">
+        <!-- 左侧栏 -->
+        <div class="left">
+            <h3>图书分类导航</h3>
+            <ul>
+                <li><a href="#"><img src="小说.png" class="icon" width="20px" height="20px">小说</a></li>
+                <li><a href="#"><img src="历史.png" class="icon" width="20px" height="20px">历史</a></li>
+                <li><a href="#"><img src="文学.png" class="icon" width="20px" height="20px">文学</a></li>
+                <li><a href="#"><img src="艺术.png" class="icon" width="20px" height="20px">艺术</a></li>
+                <li><a href="#"><img src="哲学.png" class="icon" width="20px" height="20px">哲学</a></li>
+                <li><a href="#"><img src="科技.png" class="icon" width="20px" height="20px">科技</a></li>
+                <li><a href="#"><img src="经济.png" class="icon" width="20px" height="20px">经济</a></li>
+                <li><a href="#"><img src="教育.png" class="icon" width="20px" height="20px">教育</a></li>
+                <li><a href="#"><img src="医学.png" class="icon" width="20px" height="20px">医学</a></li>
+                <li><a href="#"><img src="军事.png" class="icon" width="20px" height="20px">军事</a></li>
+            </ul>
+        </div>
+
+        <!-- 中间栏 -->
+        <div class="middle">
+            <!-- 视频播放区域 -->
+            <div class="img-play-container">
+                <img src="展销图片横.png" alt="图书活动封面" class="cover-img">
+                <div class="hidden-play-btn">
+                    <div class="play-icon"></div>
+                </div>
+            </div>
+            <!-- 筛选栏（图二样式：无箭头、无背景） -->
+            <div class="filter-bar">
+                <div class="filter-item">
+                    <span class="filter-title">按分类筛选</span>
+                    <ul class="filter-options">
+                        <li><a href="#">全部图书</a></li>
+                        <li><a href="#">新书上市</a></li>
+                        <li><a href="#">畅销图书</a></li>
+                        <li><a href="#">折扣图书</a></li>
+                    </ul>
+                </div>
+                <div class="filter-item">
+                    <span class="filter-title">按价格筛选</span>
+                    <ul class="filter-options">
+                        <li><a href="#">0-50元</a></li>
+                        <li><a href="#">50-100元</a></li>
+                        <li><a href="#">100-200元</a></li>
+                        <li><a href="#">200元以上</a></li>
+                    </ul>
+                </div>
+                <div class="filter-item">
+                    <span class="filter-title">按评分筛选</span>
+                    <ul class="filter-options">
+                        <li><a href="#">4分以上</a></li>
+                        <li><a href="#">3分以上</a></li>
+                        <li><a href="#">2分以上</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- 新书上市区域（图二样式：虚线标题、预览图覆盖） -->
+            <div class="section-title">
+                <h3>新书上市</h3>
+                <a href="#">查看更多→</a>
+            </div>
+            <div class="book-list">
+                <div class="book-item">
+                    <div class="book-img">
+                        <img src="web开发.png" alt="web开发">
+                        <!-- 预览图调整为图二的覆盖样式 -->
+                        <img src="web开发.png" alt="web开发预览" class="preview-img">
+                    </div>
+                    <div class="book-name">零基础入门学习Web开发（HTML5 & CSS3）</div>
+                    <div class="book-price">¥59.00</div>
+                    <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px"> 加入购物车</button>
+                    <div class="book-details">
+                        <p><strong>作者：</strong>小甲鱼</p>
+                        <p><strong>出版社：</strong>科技出版社</p>
+                        <p><strong>简介：</strong>本书适合零基础学习者，涵盖HTML、CSS、JavaScript等Web开发必备知识。</p>
+                    </div>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-img">
+                        <img src="设计思维.jpg" alt="设计思维">
+                        <img src="设计思维.jpg" alt="设计思维预览" class="preview-img">
+                    </div>
+                    <div class="book-name">设计思维：创新问题解决方法与实践</div>
+                    <div class="book-price">¥45.00</div>
+                    <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px"> 加入购物车</button>
+                    <div class="book-details">
+                        <p><strong>作者：</strong>付志勇</p>
+                        <p><strong>出版社：</strong>艺术出版社</p>
+                        <p><strong>简介：</strong>详解设计思维的五大阶段，通过案例展示如何应用于实际问题解决。</p>
+                    </div>
+                </div>
+                
+                <div class="book-item">
+                    <div class="book-img">
+                        <img src="数据分析.avif" alt="数据分析实战">
+                        <img src="数据分析.avif" alt="数据分析预览" class="preview-img">
+                    </div>
+                    <div class="book-name">数据分析实战：从数据到决策的完整流程</div>
+                    <div class="book-price">¥69.00</div>
+                    <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px"> 加入购物车</button>
+                    <div class="book-details">
+                        <p><strong>作者：</strong>颜锦江</p>
+                        <p><strong>出版社：</strong>统计出版社</p>
+                        <p><strong>简介：</strong>从数据收集、清洗到分析、可视化，全程实战案例教学。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 右侧栏 -->
+        <div class="right">
+            <div class="box3">
+                <h3>活动期间优惠</h3> 
+                <ul>
+                    <li>全场图书满100减30,满200减80,多买多减</li>
+                    <li>新用户注册即送20元优惠劵,可叠加使用</li>
+                    <li>每日签到领取积分,积分可兑换图书</li>
+                    <li>会员专享8折优惠,还可参与限量秒杀</li>
+                    <li>购买套装图书额外赠送精美书签</li>
+                </ul>
+            </div>
+            <img src="图书活动.jpg" alt="促销图书" class="promo-img">
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="footer-links">
+            <a href="#">关于我们</a>
+            <a href="#">联系方式</a>
+            <a href="#">隐私政策</a>
+            <a href="#">用户协议</a>
+            <a href="#">帮助中心</a>
+        </div>
+        <div class="copyright">
+            <p>2023 数字展销平台 版权所有</p>
+        </div>
+    </footer>
+</body>
+</html>
