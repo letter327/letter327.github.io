@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>数字展销平台</title>
+        <link type="text/css" rel="stylesheet" href="lab6.css">
+    </head>
+    <body>
+        <!-- 导航栏 -->
+        <div class="nav">
+            <nav class="navlist">
+                <div class="logo">
+                    <img src="图书网站logo.png" alt="图书网站logo">
+                    <span class="logo-text">数字展销平台</span>
+                </div>
+                <ul>
+                    <li class="dh"><a href="https://letter327.github.io/5form-index.html"><img src="订阅.png" class="icon" width="20px" height="20px">订阅</a></li>
+                    <li class="dh"><a href="#"><img src="读小说.png" alt="小说图标" class="nav-icon">小说</a>
+                        <ul class="droplist">
+                            <li><a href="#">科幻小说</a></li>
+                            <li><a href="#">言情小说</a></li>
+                            <li><a href="#">悬疑小说</a></li>
+                        </ul>
+                    </li>
+                    <li class="dh"><a href="#"><img src="科技logo.png" alt="科技图标" class="nav-icon">科技</a>
+                        <ul class="droplist">
+                            <li><a href="#">人工智能</a></li>
+                            <li><a href="#">编程开发</a></li>
+                            <li><a href="#">航天航空</a></li>
+                        </ul>
+                    </li>
+                    <li class="dh"><a href="#"><img src="历史 logo.png" alt="历史图标" class="nav-icon">历史</a></li>
+                    <li class="dh"><a href="#"><img src="文学 logo.png" alt="文学图标" class="nav-icon">文学</a></li>
+                    <li class="dh"><a href="#"><img src="用户.png" alt="用户图标" class="nav-icon">用户</a>
+                        <ul class="droplist">
+                            <li><a href="#">登录/注册</a></li>
+                            <li><a href="#">我的订单</a></li>
+                            <li><a href="#">收藏夹</a></li>
+                            <li><a href="#">设置</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- 主内容区 -->
+        <div id="main-container">
+            <!-- 左侧栏 -->
+            <div class="left">
+                <h3>图书分类导航</h3>
+                <ul>
+                    <li><a href="#"><img src="小说.png" class="icon" width="20px" height="20px">小说</a></li>
+                    <li><a href="#"><img src="历史.png" class="icon" width="20px" height="20px">历史</a></li>
+                    <li><a href="#"><img src="文学.png" class="icon" width="20px" height="20px">文学</a></li>
+                    <li><a href="#"><img src="艺术.png" class="icon" width="20px" height="20px">艺术</a></li>
+                    <li><a href="#"><img src="哲学.png" class="icon" width="20px" height="20px">哲学</a></li>
+                    <li><a href="#"><img src="科技.png" class="icon" width="20px" height="20px">科技</a></li>
+                    <li><a href="#"><img src="经济.png" class="icon" width="20px" height="20px">经济</a></li>
+                    <li><a href="#"><img src="教育.png" class="icon" width="20px" height="20px">教育</a></li>
+                    <li><a href="#"><img src="医学.png" class="icon" width="20px" height="20px">医学</a></li>
+                    <li><a href="#"><img src="军事.png" class="icon" width="20px" height="20px">军事</a></li>
+                </ul>
+            </div>
+
+            <!-- 中间栏 -->
+            <div class="middle">
+                <!-- 视频播放区域 -->
+                <div id="img-play-container">
+                    <ul class="imglist">
+                        <li><img src="展销图片横.png" alt="宣传图"></li>
+                        <li><img src="图书促销2.png" alt="宣传图"></li>
+                        <li><img src="图书促销3.png" alt="宣传图"></li>
+                        <li><img src="图书促销4.png" alt="宣传图"></li>
+                        <li><img src="图书促销图片.png" alt="宣传图"></li>
+                    </ul>
+                    <div class="hidden-play-btn">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <!-- 筛选栏（图二样式：无箭头、无背景） -->
+                <div class="filter-bar">
+                    <div class="filter-item">
+                        <span class="filter-title">按分类筛选</span>
+                        <ul class="filter-options">
+                            <li><a href="#">全部图书</a></li>
+                            <li><a href="#">新书上市</a></li>
+                            <li><a href="#">畅销图书</a></li>
+                            <li><a href="#">折扣图书</a></li>
+                        </ul>
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-title">按价格筛选</span>
+                        <ul class="filter-options">
+                            <li><a href="#">0-50元</a></li>
+                            <li><a href="#">50-100元</a></li>
+                            <li><a href="#">100-200元</a></li>
+                            <li><a href="#">200元以上</a></li>
+                        </ul>
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-title">按评分筛选</span>
+                        <ul class="filter-options">
+                            <li><a href="#">4分以上</a></li>
+                            <li><a href="#">3分以上</a></li>
+                            <li><a href="#">2分以上</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rx">
+                    <h3>热销图书</h3>
+                </div>
+                <div class="rex">
+                    <div class="book3D-cointainer">
+                        <div class="book3D">
+                            <img src="未知的探索.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">未知的探索</div>
+                                <div class="book-price">¥68.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="月亮和六便士.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">月亮和六便士</div>
+                                <div class="book-price">¥48.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="子夜.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">子夜</div>
+                                <div class="book-price">¥58.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="活着.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">活着</div>
+                                <div class="book-price">¥56.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="十个词汇里的中国.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">十个词汇里的中国</div>
+                                <div class="book-price">¥64.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="狼王梦.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">狼王梦</div>
+                                <div class="book-price">¥42.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="千里江山图.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">千里江山图</div>
+                                <div class="book-price">¥46.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="儒林外史.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">儒林外史</div>
+                                <div class="book-price">¥54.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 新书上市区域（图二样式：虚线标题、预览图覆盖） -->
+                <div class="section-title">
+                    <h3>新书上市</h3>
+                    <a href="#">查看更多→</a>
+                </div>
+                <div class="book-list">
+                    
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="web开发.png" alt="web开发">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：小甲鱼</li>
+                                    <li>出版社：科技出版社</li>
+                                    <li>价格：¥59.00</li>
+                                    <li>评分：⭐⭐⭐⭐⭐</li>
+                                    <li>简介：本书适合零基础学习者，涵盖HTML、CSS、JavaScript等Web开发必备知识。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">Web开发</div>
+                        <div class="book-price">¥59.00</div>
+                        <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="设计思维.jpg" alt="设计思维">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：付志勇</li>
+                                    <li>出版社：艺术出版社</li>
+                                    <li>价格：¥45.00</li>
+                                    <li>评分：⭐⭐⭐</li>
+                                    <li>简介：详解设计思维的五大阶段，通过案例展示如何应用于实际问题解决。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">设计思维</div>
+                        <div class="book-price">¥45.00</div>
+                        <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="数据分析.avif" alt="数据分析">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：颜锦江</li>
+                                    <li>出版社：统计出版社</li>
+                                    <li>价格：¥69.00</li>
+                                    <li>评分：⭐⭐⭐⭐</li>
+                                    <li>简介：从数据收集、清洗到分析、可视化，全程实战案例教学。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">数据分析</div>
+                        <div class="book-price">¥69.00</div>
+                        <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                </div>
+                <div class="book-list">
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="Java web.webp" alt="java web开发">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：明日科技</li>
+                                    <li>出版社：清华大学出版社</li>
+                                    <li>价格：¥63.00</li>
+                                    <li>评分：⭐⭐⭐⭐</li>
+                                    <li>简介：本书包含开发背景、需求分析、系统设计、数据库建模、功能模块。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">Java web开发</div>
+                        <div class="book-price">¥63.00</div>
+                        <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="计算机图形学.webp" alt="计算机图形学">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：Donald Hearn（唐纳德・赫恩）</li>
+                                    <li>出版社：电子工业出版社</li>
+                                    <li>价格：¥68.00</li>
+                                    <li>评分：⭐⭐⭐⭐</li>
+                                    <li>简介：本书配套了大量 OpenGL 程序示例与效果图。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">计算机图形学</div>
+                        <div class="book-price">¥68.00</div>
+                        <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="计算机控制技术.webp" alt="计算机控制技术">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：傅永峰、张聚</li>
+                                    <li>出版社：清华大学出版社</li>
+                                    <li>价格：¥53.00</li>
+                                    <li>评分：⭐⭐⭐⭐⭐</li>
+                                    <li>简介：本书系统讲解计算机控制系统的分析、设计与工程实现方法。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">计算机控制技术</div>
+                        <div class="book-price">¥53.00</div>
+                        <button class="add-to-cart"><img src="购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧栏 -->
+            <div class="right">
+                <div class="box3">
+                    <h3>活动期间优惠</h3> 
+                    <ul>
+                        <li>全场图书满100减30,满200减80,多买多减</li>
+                        <li>新用户注册即送20元优惠劵,可叠加使用</li>
+                        <li>每日签到领取积分,积分可兑换图书</li>
+                        <li>会员专享8折优惠,还可参与限量秒杀</li>
+                        <li>购买套装图书额外赠送精美书签</li>
+                    </ul>
+                </div>
+                <div class="box4">
+                    <h3>用户评论</h3>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="头像5.webp" alt="" class="uimg">
+                                <div class="user">张先生</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐⭐</div>
+                            <div class="pf">这本书内容非常精彩，作者的视角很独特，把抽象的概念讲得通俗易懂，值得反复阅读！</div>
+                            <div class="user-time">2025-11-20 15:30</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="头像1.webp" alt="" class="uimg">
+                                <div class="user">YAB</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐</div>
+                            <div class="pf">整体不错，就是部分章节的节奏稍慢，不过不影响整体阅读体验，推荐购买.</div>
+                            <div class="user-time">2025-11-12 13:30</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="头像2.webp" alt="" class="uimg">
+                                <div class="user">flower</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐⭐</div>
+                            <div class="pf">已经是第二次购买了，送给朋友的，大家都觉得这本书很有深度，性价比很高！</div>
+                            <div class="user-time">2025-11-18 15:40</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="头像3.webp" alt="" class="uimg">
+                                <div class="user">秋</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐</div>
+                            <div class="pf">作为学生，觉得这本书对我的认知提升很大，里面的案例很贴近生活，推荐给同龄人。</div>
+                            <div class="user-time">2025-11-20 14:37</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="头像4.webp" alt="" class="uimg">
+                                <div class="user">冬</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐⭐</div>
+                            <div class="pf">沈石溪把狼写活了！捕猎场景超逼真，紫岚的坚韧让人佩服，结局意难平却难忘</div>
+                            <div class="user-time">2025-11-20 10:30</div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer>
+            <div class="footer-links">
+                <a href="#">关于我们</a>
+                <a href="#">联系方式</a>
+                <a href="#">隐私政策</a>
+                <a href="#">用户协议</a>
+                <a href="#">帮助中心</a>
+            </div>
+            <div class="copyright">
+                <p>2023 数字展销平台 版权所有</p>
+            </div>
+        </footer>
+    </body>
+</html>
