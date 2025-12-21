@@ -493,7 +493,6 @@
                 <div class="recommend-section">
                     <div class="recommend-header">
                         <h2>随机图书推荐</h2>
-                        <button id="refreshRecommend">换一批</button>
                     </div>
                     <div class="book-list" id="recommendBooks"></div>
                 </div>
@@ -955,222 +954,50 @@
             }
             updateRealTime();
             setInterval(updateRealTime, 1000);
-           var bookList = [
-    {name:"未知的探索",author:"罗利建",category:"科技",price:68.00,score:4.8},
-    {name:"月亮和六便士",author:"毛姆",category:"文学",price:48.00,score:4.9},
-    {name:"子夜",author:"茅盾",category:"文学",price:58.00,score:4.7},
-    {name:"活着",author:"余华",category:"文学",price:56.00,score:4.9},
-    {name:"Web开发",author:"小甲鱼",category:"科技",price:59.00,score:4.6},
-    {name:"设计思维",author:"付志勇",category:"艺术",price:45.00,score:3.0},
-    {name:"数据分析",author:"颜锦江",category:"科技",price:69.00,score:4.0},
-    {name:"计算机图形学",author:"Donald Hearn",category:"科技",price:68.00,score:5.0},
-    {name:"计算机控制技术",author:"傅永峰，张聚",category:"科技",price:53.00,score:4.0},
-    {name:"Java Web开发",author:"明日科技",category:"科技",price:63.00,score:4.0}
-]
-function User(username,loginStatus,cart){
-    this.username=username;
-    this.loginStatus=loginStatus;
-    this.cart=cart;
-    this.login=function(){this.loginStatus=true; };
-    this.addToCart=function(book){this.cart.push(book);};
-}
-var currentUser=new User("",false,[]);
-var searchInput=document.querySelector('.search-txt');
-var searchResult=document.getElementById('searchResult');
-var searchType=document.getElementsByName('search-type');
-searchInput.addEventListener('input',function(){
-    var keyword=this.value.trim().toLowerCase();
-    if(!keyword){
-        searchResult.style.display='none';
-        return;
-    }
-    let type='name';
-    for(let item of searchType){
-        if(item.checked){type=item.value;break;}
-    }
-    const result = bookList.filter(book => { 
-    return book[type].toLowerCase().includes(keyword); 
-}); 
+           
+            function initCountdown(){
+                const endTime = new Date('2025-12-31 23:59:59');
+                const countdownEl = document.getElementById('countdown');
 
-// 清空并渲染结果
-searchResult.innerHTML = ''; 
-if (result.length === 0) { 
-    const emptyItem = document.createElement('div'); 
-    emptyItem.className = 'search-result-item'; 
-    emptyItem.innerText = '无匹配图书'; 
-    searchResult.appendChild(emptyItem);
-} else {
-    result.forEach(book => { 
-        const item = document.createElement('div'); 
-        item.className = 'search-result-item';
-        item.innerText = `${book.name}（作者：${book.author}，分类：${book.category}，¥${book.price}）`; 
-        searchResult.appendChild(item); 
-    }); 
-} 
-searchResult.style.display = 'block';
-}); 
+                function updateCountdown() {
+                    const diffMs = endTime - new Date();
+                    if (diffMs <= 0) {
+                        countdownEl.textContent = '限时抢购：活动已结束';
+                        clearInterval(countdownTimer);
+                        return;
+                    }
+                    const days = Math.floor(diffMs / (1000*60*60*24));
+                    const hours = String(Math.floor((diffMs % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
+                    const minutes = String(Math.floor((diffMs % (1000*60*60))/(1000*60))).padStart(2, '0');
+                    const seconds = String(Math.floor((diffMs % (1000*60))/1000)).padStart(2, '0');
+                    countdownEl.textContent = 
+                        `限时抢购：距离活动结束还有 ${days}天${hours}时${minutes}分${seconds}秒`;
+                }
 
-// 点击页面其他区域关闭搜索结果
-document.addEventListener('click', function(e) { 
-    if (!e.target.closest('.search-box')) { 
-        searchResult.style.display = 'none'; 
-    } 
-}); 
+            setTimeout(() => {
+                        updateCountdown();
+                        window.countdownTimer = setInterval(updateCountdown, 1000);
+                    }, 100);
+                }
+                initCountdown();
 
-// 3. 登录表单验证（满足任务要求：正则、实时反馈）
-var userInput = document.getElementById("user"); 
-var pwdInput = document.getElementById("password"); 
-var pwdStrength = document.getElementById("pwdStrength"); 
-//me
-userInput.onblur=checkname;
-function checkname(){
-    var val = userInput.value.trim();
-    var isPhone = /^1\d{10}$/.test(val);
-    var isEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(val);
-    var flag = isPhone || isEmail;
-    var flag=userInput.length==11;
-    if(flag){
-        document.getElementById("user_err").style.display='none';
-    }
-    else{
-        document.getElementById("user_err").style.display='block';
-    }
-    return flag;
-}
-pwdInput.onblur=checkpwd;
-function checkpwd(){
-    var vl=pwdInput.value.trim();
-    var pwd=/^\w{4}$/;
-    var flag=pwd.test(vl);
-    if(!flag){
-        document.getElementById("pwdStrength").style.display='block';
-    }
-    else{
-        document.getElementById("pwdStrength").style.display='none';
-    }
-    return flag;
-}
-function checkForm() {
-    var isUserValid = checkname();
-    var isPwdValid = checkpwd();
-
-    if (isUserValid && isPwdValid) {
-        alert("校验通过，即将登录！");
-    } else {
-        alert("请检查账号或密码格式！");
-    }
-}
-
-function initCountdown(){
-    const endTime = new Date('2025-12-31 23:59:59');
-    const countdownEl = document.getElementById('countdown');
-
-    function updateCountdown() {
-        const diffMs = endTime - new Date();
-        if (diffMs <= 0) {
-            countdownEl.textContent = '限时抢购：活动已结束';
-            clearInterval(countdownTimer);
-            return;
-        }
-        const days = Math.floor(diffMs / (1000*60*60*24));
-        const hours = String(Math.floor((diffMs % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
-        const minutes = String(Math.floor((diffMs % (1000*60*60))/(1000*60))).padStart(2, '0');
-        const seconds = String(Math.floor((diffMs % (1000*60))/1000)).padStart(2, '0');
-        countdownEl.textContent = 
-            `限时抢购：距离活动结束还有 ${days}天${hours}时${minutes}分${seconds}秒`;
-    }
-
-setTimeout(() => {
-            updateCountdown();
-            window.countdownTimer = setInterval(updateCountdown, 1000);
-        }, 100);
-    }
-    initCountdown();
-
-function updateRealTime() {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = String(now.getMonth() + 1).padStart(2, '0');
-        const date = String(now.getDate()).padStart(2, '0');
-        const week = ['日','一','二','三','四','五','六'][now.getDay()];
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        const seconds = String(now.getSeconds()).padStart(2, '0');
-        document.getElementById('realTime').textContent = 
-            `${year}-${month}-${date} 星期${week} ${hours}:${minutes}:${seconds}`;
+            function updateRealTime() {
+                    const now = new Date();
+                    const year = now.getFullYear();
+                    const month = String(now.getMonth() + 1).padStart(2, '0');
+                    const date = String(now.getDate()).padStart(2, '0');
+                    const week = ['日','一','二','三','四','五','六'][now.getDay()];
+                    const hours = String(now.getHours()).padStart(2, '0');
+                    const minutes = String(now.getMinutes()).padStart(2, '0');
+                    const seconds = String(now.getSeconds()).padStart(2, '0');
+                    document.getElementById('realTime').textContent = 
+                        `${year}-${month}-${date} 星期${week} ${hours}:${minutes}:${seconds}`;
     }
     updateRealTime();
     setInterval(updateRealTime, 1000);
 
     
-    // 1. 随机抽取不重复图书的函数
-    function getRandomBooks(source, count) {
-        // 复制原数组避免修改原始数据
-        const tempArr = [...source];
-        const randomBooks = [];
-        // 循环抽取指定数量的图书（最多抽完所有图书）
-        for (let i = 0; i < count && tempArr.length > 0; i++) {
-            const randomIndex = Math.floor(Math.random() * tempArr.length);
-            // 从临时数组删除并取出随机图书
-            randomBooks.push(tempArr.splice(randomIndex, 1)[0]);
-        }
-        return randomBooks;
-    }
-
-    // 2. 渲染随机推荐图书到页面
-    function renderRecommendBooks() {
-        const recommendContainer = document.getElementById('recommendBooks');
-        // 每次渲染前清空容器
-        recommendContainer.innerHTML = '';
-        // 随机抽取4本图书（可修改数字调整数量）
-        const randomBooks = getRandomBooks(bookList, 3);
-        
-        // 遍历随机图书生成HTML
-        randomBooks.forEach(book => {
-            // 生成星级评分（保留一位小数）
-            const starScore = '⭐'.repeat(Math.floor(book.score)) + (book.score % 1 >= 0.5 ? '⭐' : '');
-            // 创建图书项DOM
-            const bookItem = document.createElement('div');
-            bookItem.className = 'book-item'; // 复用现有样式类
-            bookItem.innerHTML = `
-                <div class="book">
-                    <div class="a1">
-                        <!-- 使用随机封面图，保持和现有图书样式一致 -->
-                        <img src="https://picsum.photos/200/280?random=${book.name.length}" alt="${book.name}">
-                    </div>
-                    <div class="back">
-                        <ul>
-                            <li>作者：${book.author}</li>
-                            <li>分类：${book.category}</li>
-                            <li>价格：¥${book.price.toFixed(2)}</li>
-                            <li>评分：${starScore} (${book.score})</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="book-name">${book.name}</div>
-                <div class="book-price">¥${book.price.toFixed(2)}</div>
-                <button class="add-to-cart">
-                    <img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 
-                    加入购物车
-                </button>
-            `;
-            recommendContainer.appendChild(bookItem);
-        });
-    }
-
-    // 3. 初始化随机推荐功能
-    function initRecommendModule() {
-        // 页面加载时首次渲染推荐图书
-        renderRecommendBooks();
-        // 绑定"换一批"按钮点击事件
-        const refreshBtn = document.getElementById('refreshRecommend');
-        if (refreshBtn) {
-            refreshBtn.addEventListener('click', renderRecommendBooks);
-        }
-    }
-
-    // 页面加载完成后初始化推荐模块
-    window.addEventListener('DOMContentLoaded', initRecommendModule);
+    
 
         </script>
     </foot>
