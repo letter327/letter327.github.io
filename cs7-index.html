@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>数字展销平台</title>
+        <link type="text/css" rel="stylesheet" href="lab6.css">
+        <style>
+        form {
+            background: #d3effb; /* 白色背景更清爽 */
+            width: 100%;
+            max-width: 450px;
+            height: 500px;
+            margin: 20px; /* 移动端留边距 */
+            border-radius: 12px; /* 更大的圆角更现代 */
+            padding: 40px 30px;
+            border: 1px solid #e8f4f8; /* 淡色边框 */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08); /* 柔和阴影 */
+        }
+        form h2::after {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 2px;
+            background: #4299e1; 
+            border-radius: 1px;
+        }
+        
+        /* 通过锚点target触发弹窗显示 */
+        #lgM:target .lg-mask{
+            display: block;
+            opacity: 1;
+        }
+        #lgM:target .dl {
+            display: block;
+            opacity: 1;
+            transform: translate(-50%, -50%);
+        }
+        .search-box{
+            position: absolute;
+            top: 50%;
+            left: 30%;
+            transform: translate(-50%,-50%);
+            padding: 0px;
+            height:40px;
+            border-radius:40px;
+            background-color: white;
+        }
+        .search-txt::placeholder {
+            color: black;
+            font-size: 16px;
+            justify-content: center;
+        }
+        .search-btn{
+            height: 40px;
+            color: #5a70de;
+            float: right;
+            width: 40px;
+            border-radius: 50%;
+            background:rgb(146, 181, 160);
+            
+            display: flex;
+            transition: .4s;
+        }
+        .search-btn img{
+            margin: 1px;
+        }
+        .search-txt{
+            border: none;
+            background: none;
+            outline: none;
+            justify-content: center;
+            align-items: center;
+            width: 0;
+            padding:0;
+            transition: .4s;
+            line-height: 40px;
+            font-size: 18px;
+            color: rgb(0, 0, 0);
+        }
+        .search-box:hover .search-txt,
+        .search-txt:focus {
+            width: 200px;
+            padding: 0 8px;
+        }
+
+        /* hover/聚焦时改变背景色 */
+        .search-box:hover,
+        .search-txt:focus + .search-btn {
+            background-color: #ffffff;
+        }
+        #search-filter{
+            position:absolute;
+            margin:1px 5px;
+            left:100%;
+            font-size: 15px;
+            color:#000000;
+            z-index: 10;
+            height: 40px;
+            width: 90px;
+            border-radius: 30px;
+            background-color: #dff0e5;
+        }
+        #search-filter option{
+            background-color: #ffffff;
+            border-radius: 40px;
+        }
+        .search-result{
+            position:absolute;
+            top:50px;
+            left:0;
+            width:240px;
+            background:#daeff3;
+            border:1px solid #e8f4f8;
+            border-radius: 6px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            padding:10px;
+            display:none;
+            z-index: 99;
+        }
+        .search-result-item{
+            padding:8px;
+            cursor:pointer;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .search-result-item:hover{
+            background:#bec9d4;
+        }
+        /* 登录遮罩层 */
+        .lg-mask {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* 更深的遮罩，提升层次感 */
+            backdrop-filter: blur(4px); /* 毛玻璃效果 */
+            z-index: 999;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* 登录弹窗容器 */
+        .dl {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            display: none;
+            background: #ffffff;
+            border-radius: 16px; /* 更大更圆润的圆角 */
+            padding: 40px 30px; /* 优化内边距 */
+            max-width: 420px;
+            width: 90%;
+            height: auto; /* 自适应高度，不再固定 */
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12); /* 更自然的阴影 */
+            border: none; /* 移除边框，更简洁 */
+            overflow: hidden;
+            animation: popup 0.3s ease-out; /* 弹窗出现动画 */
+        }
+
+        /* 弹窗出现动画 */
+        @keyframes popup {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -45%) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        /* 关闭按钮 */
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            color: #94a3b8;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            border-radius: 50%;
+            background: #f8fafc;
+            transition: all 0.2s ease;
+            z-index: 1001;
+        }
+
+        .close-btn:hover {
+            color: #1e293b;
+            background: #e2e8f0;
+            transform: scale(1.1);
+        }
+
+        /* 登录标题 */
+        .dl h2 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 30px;
+            margin-top: 10px;
+            font-size: 24px;
+            font-weight: 600;
+            position: relative;
+            letter-spacing: 0.5px;
+        }
+
+        .dl h2::after {
+            content: "";
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            border-radius: 3px;
+        }
+
+        /* 表单项目 */
+        .form-item {
+            margin-bottom: 20px; /* 统一表单项间距 */
+            padding: 0;
+            margin-left: 0; /* 移除左侧边距，居中对齐 */
+        }
+
+        .form-item label {
+            display: block;
+            margin-bottom: 8px;
+            color: #334155;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* 输入框样式 */
+        .form-input,
+        input[type="password"] {
+            width: 100%; /* 宽度铺满 */
+            padding: 14px 16px;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* 输入框聚焦效果 */
+        .form-input:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            background: #ffffff;
+            transform: translateY(-1px);
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* 记住我选项 */
+        .remember {
+            display: flex;
+            align-items: center;
+            margin: 5px 0 25px 0;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .remember input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            cursor: pointer;
+            accent-color: #3b82f6;
+        }
+
+        /* 登录按钮 */
+        input[type="button"] {
+            margin: 0 auto;
+            display: block; /* 居中显示 */
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+            letter-spacing: 0.5px;
+        }
+
+        input[type="button"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+            background: linear-gradient(135deg, #2563eb, #059669);
+        }
+
+        input[type="button"]:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+
+        /* 注册链接 */
+        .auth-btn {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .auth-btn a {
+            text-decoration: none;
+            color: #3b82f6;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .auth-btn a:hover {
+            color: #2563eb;
+            text-decoration: none;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* 错误提示样式优化 */
+        #user_err {
+            display: none;
+            font-size: 12px;
+            color: #ef4444;
+            margin-top: 6px;
+            margin-left: 0;
+            line-height: 1.4;
+            padding-left: 4px;
+        }
+
+        #pwdStrength {
+            display: none;
+            font-size: 12px;
+            color: #ef4444;
+            margin-left: 0;
+            margin-top: 6px;
+            padding-left: 4px;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 480px) {
+            .dl {
+                padding: 30px 20px;
+                max-width: 95%;
+            }
+            
+            .dl h2 {
+                font-size: 22px;
+                margin-bottom: 25px;
+            }
+            
+            .form-input,
+            input[type="password"] {
+                padding: 12px 14px;
+            }
+            
+            input[type="button"] {
+                padding: 12px;
+                font-size: 15px;
+            }
+        }
+        </style>
+    </head>
+    <body>
+        <!-- 导航栏 -->
+        <div class="nav">
+            <nav class="navlist">
+                <div class="logo">
+                    <img src="/lab6/图书网站logo.png" alt="图书网站logo">
+                    <span class="logo-text">数字展销平台</span>
+                </div>
+                <div class="search-box">
+                    <input class="search-txt" type="text" name="" placeholder="请输入要搜索的图书">
+                    <a class="search-btn" href="#"><img src="搜索 (1).png" alt="搜索图标" width="30px"></a>
+                    <select id="search-filter">
+                        <option value="selection">分类筛选</option>
+                        <option value="shuming">书名</option>
+                        <option value="zuozhe">作者</option>
+                        <option value="zhonglei">种类</option>
+                    </select>
+                    <div class="search-result" id="searchResult"></div>
+                </div>
+                <ul>
+                    <li class="dh"><a href="https://letter327.github.io/5form-index.html"><img src="/lab6/订阅.png" class="icon" width="20px" height="20px">订阅</a></li>
+                    <li class="dh"><a href="#"><img src="/lab6/读小说.png" alt="小说图标" class="nav-icon">小说</a>
+                        <ul class="droplist">
+                            <li><a href="#">科幻小说</a></li>
+                            <li><a href="#">言情小说</a></li>
+                            <li><a href="#">悬疑小说</a></li>
+                        </ul>
+                    </li>
+                    <li class="dh"><a href="#"><img src="/lab6/科技logo.png" alt="科技图标" class="nav-icon">科技</a>
+                        <ul class="droplist">
+                            <li><a href="#">人工智能</a></li>
+                            <li><a href="#">编程开发</a></li>
+                            <li><a href="#">航天航空</a></li>
+                        </ul>
+                    </li>
+                    <li class="dh"><a href="#"><img src="/lab6/历史 logo.png" alt="历史图标" class="nav-icon">历史</a></li>
+                    <li class="dh"><a href="#"><img src="/lab6/文学 logo.png" alt="文学图标" class="nav-icon">文学</a></li>
+                    <li class="dh"><a href="#"><img src="/lab6/用户.png" alt="用户图标" class="nav-icon">用户</a>
+                        <ul class="droplist">
+                            <li><a href="#lgM">登录/注册</a></li>
+                            <li><a href="#">我的订单</a></li>
+                            <li><a href="#">收藏夹</a></li>
+                            <li><a href="#">设置</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div id="lgM">
+            <div class="lg-mask"></div>
+            <div class="dl">
+                <a href="#" class="close-btn">&times;</a>
+                <h2>登录</h2>
+                <div class="form-item">
+                    <label for="user">邮箱/手机号</label>
+                    <input  class="form-input" type="text" id="user" name="user" value="" placeholder="请输入用户名/邮箱/手机号">
+                    <span id="user_err">请输入正确的邮箱或手机号</span>
+                </div> 
+
+                <div class="form-item">
+                    <label for="password">密码</label>
+                    <input type="password" id="password" name="password" value="" placeholder="请输入密码">
+                    <div classs="password-strength" id="pwdStrength">密码过于简单</div>
+                </div>
+
+                <div class="remember">
+                    <input type="checkbox" id="remember" name="remember" value="1">
+                    <label for="remember">记住我</label>
+                </div>
+
+                <input type="button" name="button" value="登录" onclick="checkForm()">
+                <div class="auth-btn">
+                    <a href="https://letter327.github.io/zc-index.html">注册账户</a>
+                </div>
+            </div>
+        </div>
+        <!-- 主内容区 -->
+        <div id="main-container">
+            <!-- 左侧栏 -->
+            <div class="left">
+                <h3>图书分类导航</h3>
+                <ul>
+                    <li><a href="#"><img src="/lab6/小说.png" class="icon" width="20px" height="20px">小说</a></li>
+                    <li><a href="#"><img src="/lab6/历史.png" class="icon" width="20px" height="20px">历史</a></li>
+                    <li><a href="#"><img src="/lab6/文学.png" class="icon" width="20px" height="20px">文学</a></li>
+                    <li><a href="#"><img src="/lab6/艺术.png" class="icon" width="20px" height="20px">艺术</a></li>
+                    <li><a href="#"><img src="/lab6/哲学.png" class="icon" width="20px" height="20px">哲学</a></li>
+                    <li><a href="#"><img src="/lab6/科技.png" class="icon" width="20px" height="20px">科技</a></li>
+                    <li><a href="#"><img src="/lab6/经济.png" class="icon" width="20px" height="20px">经济</a></li>
+                    <li><a href="#"><img src="/lab6/教育.png" class="icon" width="20px" height="20px">教育</a></li>
+                    <li><a href="#"><img src="/lab6/医学.png" class="icon" width="20px" height="20px">医学</a></li>
+                    <li><a href="#"><img src="/lab6/军事.png" class="icon" width="20px" height="20px">军事</a></li>
+                </ul>
+            </div>
+
+            <!-- 中间栏 -->
+            <div class="middle">
+                <!-- 视频播放区域 -->
+                <div id="img-play-container">
+                    <ul class="imglist">
+                        <li><img src="/lab6/展销图片横.png" alt="宣传图"></li>
+                        <li><img src="/lab6/图书促销2.png" alt="宣传图"></li>
+                        <li><img src="/lab6/图书促销3.png" alt="宣传图"></li>
+                        <li><img src="/lab6/图书促销4.png" alt="宣传图"></li>
+                        <li><img src="/lab6/图书促销图片.png" alt="宣传图"></li>
+                    </ul>
+                    <div class="hidden-play-btn">
+                        <div class="play-icon"></div>
+                    </div>
+                </div>
+                <div class="time-bar" id="realTime"></div>
+                <div class="countdown-bar" id="countdown">限时抢购：距离活动结束还有 --天--时--分--秒</div>
+                <div class="recommend-section">
+                    <div class="recommend-header">
+                        <h2>随机图书推荐</h2>
+                        <button id="refreshRecommend">换一批</button>
+                    </div>
+                    <div class="book-list" id="recommendBooks"></div>
+                </div>
+                <!-- 筛选栏（图二样式：无箭头、无背景） -->
+                <div class="filter-bar">
+                    <div class="filter-item">
+                        <span class="filter-title">按分类筛选</span>
+                        <ul class="filter-options">
+                            <li><a href="#">全部图书</a></li>
+                            <li><a href="#">新书上市</a></li>
+                            <li><a href="#">畅销图书</a></li>
+                            <li><a href="#">折扣图书</a></li>
+                        </ul>
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-title">按价格筛选</span>
+                        <ul class="filter-options">
+                            <li><a href="#">0-50元</a></li>
+                            <li><a href="#">50-100元</a></li>
+                            <li><a href="#">100-200元</a></li>
+                            <li><a href="#">200元以上</a></li>
+                        </ul>
+                    </div>
+                    <div class="filter-item">
+                        <span class="filter-title">按评分筛选</span>
+                        <ul class="filter-options">
+                            <li><a href="#">4分以上</a></li>
+                            <li><a href="#">3分以上</a></li>
+                            <li><a href="#">2分以上</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rx">
+                    <h3>热销图书</h3>
+                </div>
+                <div class="rex">
+                    <div class="book3D-cointainer">
+                        <div class="book3D">
+                            <img src="/lab6/未知的探索.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">未知的探索</div>
+                                <div class="book-price">¥68.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/月亮和六便士.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">月亮和六便士</div>
+                                <div class="book-price">¥48.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/子夜.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">子夜</div>
+                                <div class="book-price">¥58.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/活着.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">活着</div>
+                                <div class="book-price">¥56.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/十个词汇里的中国.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">十个词汇里的中国</div>
+                                <div class="book-price">¥64.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/狼王梦.jpg" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">狼王梦</div>
+                                <div class="book-price">¥42.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/千里江山图.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">千里江山图</div>
+                                <div class="book-price">¥46.00</div>
+                            </div>
+                        </div>
+                        <div class="book3D">
+                            <img src="/lab6/儒林外史.webp" alt="">
+                            <div class="book3D-bj">
+                                <div class="book-name">儒林外史</div>
+                                <div class="book-price">¥54.00</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 新书上市区域（图二样式：虚线标题、预览图覆盖） -->
+                <div class="section-title">
+                    <h3>新书上市</h3>
+                    <a href="#">查看更多→</a>
+                </div>
+                <div class="book-list">
+                    
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="/lab6/web开发.png" alt="web开发">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：小甲鱼</li>
+                                    <li>出版社：科技出版社</li>
+                                    <li>价格：¥59.00</li>
+                                    <li>评分：⭐⭐⭐⭐⭐</li>
+                                    <li>简介：本书适合零基础学习者，涵盖HTML、CSS、JavaScript等Web开发必备知识。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">Web开发</div>
+                        <div class="book-price">¥59.00</div>
+                        <button class="add-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="/lab6/设计思维.jpg" alt="设计思维">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：付志勇</li>
+                                    <li>出版社：艺术出版社</li>
+                                    <li>价格：¥45.00</li>
+                                    <li>评分：⭐⭐⭐</li>
+                                    <li>简介：详解设计思维的五大阶段，通过案例展示如何应用于实际问题解决。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">设计思维</div>
+                        <div class="book-price">¥45.00</div>
+                        <button class="add-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="/lab6/数据分析.avif" alt="数据分析">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：颜锦江</li>
+                                    <li>出版社：统计出版社</li>
+                                    <li>价格：¥69.00</li>
+                                    <li>评分：⭐⭐⭐⭐</li>
+                                    <li>简介：从数据收集、清洗到分析、可视化，全程实战案例教学。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">数据分析</div>
+                        <div class="book-price">¥69.00</div>
+                        <button class="add-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                </div>
+                <div class="book-list">
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="/lab6/Java web.webp " alt="java web开发">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：明日科技</li>
+                                    <li>出版社：清华大学出版社</li>
+                                    <li>价格：¥63.00</li>
+                                    <li>评分：⭐⭐⭐⭐</li>
+                                    <li>简介：本书包含开发背景、需求分析、系统设计、数据库建模、功能模块。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">Java web开发</div>
+                        <div class="book-price">¥63.00</div>
+                        <button class="add-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="/lab6/计算机图形学.webp" alt="计算机图形学">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：Donald Hearn（唐纳德・赫恩）</li>
+                                    <li>出版社：电子工业出版社</li>
+                                    <li>价格：¥68.00</li>
+                                    <li>评分：⭐⭐⭐⭐</li>
+                                    <li>简介：本书配套了大量 OpenGL 程序示例与效果图。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">计算机图形学</div>
+                        <div class="book-price">¥68.00</div>
+                        <button class="add-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                    <div class="book-item">
+                        <div class="book">
+                            <div class="a1">
+                                <img src="/lab6/计算机控制技术.webp" alt="计算机控制技术">
+                            </div>
+                            <div class="back">
+                                <ul>
+                                    <li>作者：傅永峰、张聚</li>
+                                    <li>出版社：清华大学出版社</li>
+                                    <li>价格：¥53.00</li>
+                                    <li>评分：⭐⭐⭐⭐⭐</li>
+                                    <li>简介：本书系统讲解计算机控制系统的分析、设计与工程实现方法。</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="book-name">计算机控制技术</div>
+                        <div class="book-price">¥53.00</div>
+                        <button class="add-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 加入购物车</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧栏 -->
+            <div class="right">
+                <div class="box3">
+                    <h3>活动期间优惠</h3> 
+                    <ul>
+                        <li>全场图书满100减30,满200减80,多买多减</li>
+                        <li>新用户注册即送20元优惠劵,可叠加使用</li>
+                        <li>每日签到领取积分,积分可兑换图书</li>
+                        <li>会员专享8折优惠,还可参与限量秒杀</li>
+                        <li>购买套装图书额外赠送精美书签</li>
+                    </ul>
+                </div>
+                <div class="box4">
+                    <h3>用户评论</h3>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="/lab6/头像5.webp" alt="" class="uimg">
+                                <div class="user">张先生</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐⭐</div>
+                            <div class="pf">这本书内容非常精彩，作者的视角很独特，把抽象的概念讲得通俗易懂，值得反复阅读！</div>
+                            <div class="user-time">2025-11-20 15:30</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="/lab6/头像1.webp" alt="" class="uimg">
+                                <div class="user">YAB</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐</div>
+                            <div class="pf">整体不错，就是部分章节的节奏稍慢，不过不影响整体阅读体验，推荐购买.</div>
+                            <div class="user-time">2025-11-12 13:30</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="/lab6/头像2.webp" alt="" class="uimg">
+                                <div class="user">flower</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐⭐</div>
+                            <div class="pf">已经是第二次购买了，送给朋友的，大家都觉得这本书很有深度，性价比很高！</div>
+                            <div class="user-time">2025-11-18 15:40</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="/lab6/头像3.webp" alt="" class="uimg">
+                                <div class="user">秋</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐</div>
+                            <div class="pf">作为学生，觉得这本书对我的认知提升很大，里面的案例很贴近生活，推荐给同龄人。</div>
+                            <div class="user-time">2025-11-20 14:37</div> 
+                        </div>
+                    </div>
+                    <div class="pl-list">
+                        <div class="pl-item">
+                            <div class="pl-header">
+                                <img src="/lab6/头像4.webp" alt="" class="uimg">
+                                <div class="user">冬</div>
+                            </div>
+                            <div>评分：⭐⭐⭐⭐⭐</div>
+                            <div class="pf">沈石溪把狼写活了！捕猎场景超逼真，紫岚的坚韧让人佩服，结局意难平却难忘</div>
+                            <div class="user-time">2025-11-20 10:30</div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer>
+            <div class="footer-links">
+                <a href="#">关于我们</a>
+                <a href="#">联系方式</a>
+                <a href="#">隐私政策</a>
+                <a href="#">用户协议</a>
+                <a href="#">帮助中心</a>
+            </div>
+            <div class="copyright">
+                <p>2023 数字展销平台 版权所有</p>
+            </div>
+        </footer>
+    </body>
+    <foot>
+        <script>
+            var bookList = [
+                {name:"未知的探索",author:"罗利建",category:"科技",price:68.00,score:4.8},
+                {name:"月亮和六便士",author:"毛姆",category:"文学",price:48.00,score:4.9},
+                {name:"子夜",author:"茅盾",category:"文学",price:58.00,score:4.7},
+                {name:"活着",author:"余华",category:"文学",price:56.00,score:4.9},
+                {name:"Web开发",author:"小甲鱼",category:"科技",price:59.00,score:4.6},
+                {name:"设计思维",author:"付志勇",category:"艺术",price:45.00,score:3.0},
+                {name:"数据分析",author:"颜锦江",category:"科技",price:69.00,score:4.0},
+                {name:"计算机图形学",author:"Donald Hearn",category:"科技",price:68.00,score:5.0},
+                {name:"计算机控制技术",author:"傅永峰，张聚",category:"科技",price:53.00,score:4.0},
+                {name:"Java Web开发",author:"明日科技",category:"科技",price:63.00,score:4.0}
+            ]
+            function User(username,loginStatus,cart){
+                this.username=username;
+                this.loginStatus=loginStatus;
+                this.cart=cart;
+                this.login=function(){this.loginStatus=true; };
+                this.addToCart=function(book){this.cart.push(book);};
+            }
+            var currentUser=new User("",false,[]);
+            var searchInput=document.querySelector('.search-txt');
+            var searchResult=document.getElementById('searchResult');
+            var searchType=document.getElementsByName('search-type');
+            searchInput.addEventListener('input',function(){
+                var keyword=this.value.trim().toLowerCase();
+                if(!keyword){
+                    searchResult.style.display='none';
+                    return;
+                }
+                let type='name';
+                for(let item of searchType){
+                    if(item.checked){type=item.value;break;}
+                }
+                const result = bookList.filter(book => { 
+                return book[type].toLowerCase().includes(keyword); 
+            }); 
+
+            // 清空并渲染结果
+            searchResult.innerHTML = ''; 
+            if (result.length === 0) { 
+                const emptyItem = document.createElement('div'); 
+                emptyItem.className = 'search-result-item'; 
+                emptyItem.innerText = '无匹配图书'; 
+                searchResult.appendChild(emptyItem);
+            } else {
+                result.forEach(book => { 
+                    const item = document.createElement('div'); 
+                    item.className = 'search-result-item';
+                    item.innerText = `${book.name}（作者：${book.author}，分类：${book.category}，¥${book.price}）`; 
+                    searchResult.appendChild(item); 
+                }); 
+            } 
+            searchResult.style.display = 'block';
+        }); // 新增
+
+        // 点击页面其他区域关闭搜索结果
+        document.addEventListener('click', function(e) { 
+            if (!e.target.closest('.search-box')) { 
+                searchResult.style.display = 'none'; 
+            } 
+        }); 
+
+
+
+        
+        // 3. 登录表单验证（满足任务要求：正则、实时反馈）
+        var userInput = document.getElementById("user"); 
+        var pwdInput = document.getElementById("password"); 
+        var pwdStrength = document.getElementById("pwdStrength"); 
+        //me
+        userInput.onblur=checkname;
+        function checkname(){
+            var val = userInput.value.trim();
+            var isPhone = /^1\d{10}$/.test(val);
+            var isEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(val);
+            var flag = isPhone || isEmail;
+            var flag=userInput.length==11;
+            if(flag){
+                document.getElementById("user_err").style.display='none';
+            }
+            else{
+                document.getElementById("user_err").style.display='block';
+            }
+            return flag;
+        }
+        pwdInput.onblur=checkpwd;
+        function checkpwd(){
+            var vl=pwdInput.value.trim();
+            var pwd=/^\w{4}$/;
+            var flag=pwd.test(vl);
+            if(!flag){
+                document.getElementById("pwdStrength").style.display='block';
+            }
+            else{
+                document.getElementById("pwdStrength").style.display='none';
+            }
+            return flag;
+        }
+        function checkForm() {
+            var isUserValid = checkname();
+            var isPwdValid = checkpwd();
+
+            if (isUserValid && isPwdValid) {
+                alert("校验通过，即将登录！");
+            } else {
+                alert("请检查账号或密码格式！");
+            }
+        }
+
+        function initCountdown(){
+            const endTime = new Date('2025-12-31 23:59:59');
+            const countdownEl = document.getElementById('countdown');
+
+            function updateCountdown() {
+                const diffMs = endTime - new Date();
+                if (diffMs <= 0) {
+                    countdownEl.textContent = '限时抢购：活动已结束';
+                    clearInterval(countdownTimer);
+                    return;
+                }
+                const days = Math.floor(diffMs / (1000*60*60*24));
+                const hours = String(Math.floor((diffMs % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
+                const minutes = String(Math.floor((diffMs % (1000*60*60))/(1000*60))).padStart(2, '0');
+                const seconds = String(Math.floor((diffMs % (1000*60))/1000)).padStart(2, '0');
+                countdownEl.textContent = 
+                    `限时抢购：距离活动结束还有 ${days}天${hours}时${minutes}分${seconds}秒`;
+            }
+        
+        setTimeout(() => {
+                    updateCountdown();
+                    window.countdownTimer = setInterval(updateCountdown, 1000);
+                }, 100);
+            }
+            initCountdown();
+
+        function updateRealTime() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const date = String(now.getDate()).padStart(2, '0');
+                const week = ['日','一','二','三','四','五','六'][now.getDay()];
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                document.getElementById('realTime').textContent = 
+                    `${year}-${month}-${date} 星期${week} ${hours}:${minutes}:${seconds}`;
+            }
+            updateRealTime();
+            setInterval(updateRealTime, 1000);
+           var bookList = [
+    {name:"未知的探索",author:"罗利建",category:"科技",price:68.00,score:4.8},
+    {name:"月亮和六便士",author:"毛姆",category:"文学",price:48.00,score:4.9},
+    {name:"子夜",author:"茅盾",category:"文学",price:58.00,score:4.7},
+    {name:"活着",author:"余华",category:"文学",price:56.00,score:4.9},
+    {name:"Web开发",author:"小甲鱼",category:"科技",price:59.00,score:4.6},
+    {name:"设计思维",author:"付志勇",category:"艺术",price:45.00,score:3.0},
+    {name:"数据分析",author:"颜锦江",category:"科技",price:69.00,score:4.0},
+    {name:"计算机图形学",author:"Donald Hearn",category:"科技",price:68.00,score:5.0},
+    {name:"计算机控制技术",author:"傅永峰，张聚",category:"科技",price:53.00,score:4.0},
+    {name:"Java Web开发",author:"明日科技",category:"科技",price:63.00,score:4.0}
+]
+function User(username,loginStatus,cart){
+    this.username=username;
+    this.loginStatus=loginStatus;
+    this.cart=cart;
+    this.login=function(){this.loginStatus=true; };
+    this.addToCart=function(book){this.cart.push(book);};
+}
+var currentUser=new User("",false,[]);
+var searchInput=document.querySelector('.search-txt');
+var searchResult=document.getElementById('searchResult');
+var searchType=document.getElementsByName('search-type');
+searchInput.addEventListener('input',function(){
+    var keyword=this.value.trim().toLowerCase();
+    if(!keyword){
+        searchResult.style.display='none';
+        return;
+    }
+    let type='name';
+    for(let item of searchType){
+        if(item.checked){type=item.value;break;}
+    }
+    const result = bookList.filter(book => { 
+    return book[type].toLowerCase().includes(keyword); 
+}); 
+
+// 清空并渲染结果
+searchResult.innerHTML = ''; 
+if (result.length === 0) { 
+    const emptyItem = document.createElement('div'); 
+    emptyItem.className = 'search-result-item'; 
+    emptyItem.innerText = '无匹配图书'; 
+    searchResult.appendChild(emptyItem);
+} else {
+    result.forEach(book => { 
+        const item = document.createElement('div'); 
+        item.className = 'search-result-item';
+        item.innerText = `${book.name}（作者：${book.author}，分类：${book.category}，¥${book.price}）`; 
+        searchResult.appendChild(item); 
+    }); 
+} 
+searchResult.style.display = 'block';
+}); 
+
+// 点击页面其他区域关闭搜索结果
+document.addEventListener('click', function(e) { 
+    if (!e.target.closest('.search-box')) { 
+        searchResult.style.display = 'none'; 
+    } 
+}); 
+
+// 3. 登录表单验证（满足任务要求：正则、实时反馈）
+var userInput = document.getElementById("user"); 
+var pwdInput = document.getElementById("password"); 
+var pwdStrength = document.getElementById("pwdStrength"); 
+//me
+userInput.onblur=checkname;
+function checkname(){
+    var val = userInput.value.trim();
+    var isPhone = /^1\d{10}$/.test(val);
+    var isEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/.test(val);
+    var flag = isPhone || isEmail;
+    var flag=userInput.length==11;
+    if(flag){
+        document.getElementById("user_err").style.display='none';
+    }
+    else{
+        document.getElementById("user_err").style.display='block';
+    }
+    return flag;
+}
+pwdInput.onblur=checkpwd;
+function checkpwd(){
+    var vl=pwdInput.value.trim();
+    var pwd=/^\w{4}$/;
+    var flag=pwd.test(vl);
+    if(!flag){
+        document.getElementById("pwdStrength").style.display='block';
+    }
+    else{
+        document.getElementById("pwdStrength").style.display='none';
+    }
+    return flag;
+}
+function checkForm() {
+    var isUserValid = checkname();
+    var isPwdValid = checkpwd();
+
+    if (isUserValid && isPwdValid) {
+        alert("校验通过，即将登录！");
+    } else {
+        alert("请检查账号或密码格式！");
+    }
+}
+
+function initCountdown(){
+    const endTime = new Date('2025-12-31 23:59:59');
+    const countdownEl = document.getElementById('countdown');
+
+    function updateCountdown() {
+        const diffMs = endTime - new Date();
+        if (diffMs <= 0) {
+            countdownEl.textContent = '限时抢购：活动已结束';
+            clearInterval(countdownTimer);
+            return;
+        }
+        const days = Math.floor(diffMs / (1000*60*60*24));
+        const hours = String(Math.floor((diffMs % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
+        const minutes = String(Math.floor((diffMs % (1000*60*60))/(1000*60))).padStart(2, '0');
+        const seconds = String(Math.floor((diffMs % (1000*60))/1000)).padStart(2, '0');
+        countdownEl.textContent = 
+            `限时抢购：距离活动结束还有 ${days}天${hours}时${minutes}分${seconds}秒`;
+    }
+
+setTimeout(() => {
+            updateCountdown();
+            window.countdownTimer = setInterval(updateCountdown, 1000);
+        }, 100);
+    }
+    initCountdown();
+
+function updateRealTime() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const date = String(now.getDate()).padStart(2, '0');
+        const week = ['日','一','二','三','四','五','六'][now.getDay()];
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        document.getElementById('realTime').textContent = 
+            `${year}-${month}-${date} 星期${week} ${hours}:${minutes}:${seconds}`;
+    }
+    updateRealTime();
+    setInterval(updateRealTime, 1000);
+
+    
+    // 1. 随机抽取不重复图书的函数
+    function getRandomBooks(source, count) {
+        // 复制原数组避免修改原始数据
+        const tempArr = [...source];
+        const randomBooks = [];
+        // 循环抽取指定数量的图书（最多抽完所有图书）
+        for (let i = 0; i < count && tempArr.length > 0; i++) {
+            const randomIndex = Math.floor(Math.random() * tempArr.length);
+            // 从临时数组删除并取出随机图书
+            randomBooks.push(tempArr.splice(randomIndex, 1)[0]);
+        }
+        return randomBooks;
+    }
+
+    // 2. 渲染随机推荐图书到页面
+    function renderRecommendBooks() {
+        const recommendContainer = document.getElementById('recommendBooks');
+        // 每次渲染前清空容器
+        recommendContainer.innerHTML = '';
+        // 随机抽取4本图书（可修改数字调整数量）
+        const randomBooks = getRandomBooks(bookList, 3);
+        
+        // 遍历随机图书生成HTML
+        randomBooks.forEach(book => {
+            // 生成星级评分（保留一位小数）
+            const starScore = '⭐'.repeat(Math.floor(book.score)) + (book.score % 1 >= 0.5 ? '⭐' : '');
+            // 创建图书项DOM
+            const bookItem = document.createElement('div');
+            bookItem.className = 'book-item'; // 复用现有样式类
+            bookItem.innerHTML = `
+                <div class="book">
+                    <div class="a1">
+                        <!-- 使用随机封面图，保持和现有图书样式一致 -->
+                        <img src="https://picsum.photos/200/280?random=${book.name.length}" alt="${book.name}">
+                    </div>
+                    <div class="back">
+                        <ul>
+                            <li>作者：${book.author}</li>
+                            <li>分类：${book.category}</li>
+                            <li>价格：¥${book.price.toFixed(2)}</li>
+                            <li>评分：${starScore} (${book.score})</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="book-name">${book.name}</div>
+                <div class="book-price">¥${book.price.toFixed(2)}</div>
+                <button class="add-to-cart">
+                    <img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="add-to-cart-img"> 
+                    加入购物车
+                </button>
+            `;
+            recommendContainer.appendChild(bookItem);
+        });
+    }
+
+    // 3. 初始化随机推荐功能
+    function initRecommendModule() {
+        // 页面加载时首次渲染推荐图书
+        renderRecommendBooks();
+        // 绑定"换一批"按钮点击事件
+        const refreshBtn = document.getElementById('refreshRecommend');
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', renderRecommendBooks);
+        }
+    }
+
+    // 页面加载完成后初始化推荐模块
+    window.addEventListener('DOMContentLoaded', initRecommendModule);
+
+        </script>
+    </foot>
+</html>
