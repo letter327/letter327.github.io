@@ -118,8 +118,11 @@
             padding:10px;
             display:none;
             z-index: 99;
+            overflow-y:auto;
+            max-height: 300px;
         }
         .search-result-item{
+            overflow-y:auto;
             padding:8px;
             cursor:pointer;
             border-bottom: 1px solid #f0f0f0;
@@ -376,6 +379,9 @@
                 font-size: 15px;
             }
         }
+        .ssjg{
+            display: none;
+        }
         </style>
     </head>
     <body>
@@ -393,7 +399,7 @@
                         <option value="selection">分类筛选</option>
                         <option value="shuming">书名</option>
                         <option value="zuozhe">作者</option>
-                        <option value="zhonglei">种类</option>
+                        <option value="zhonglei">全部</option>
                     </select>
                     <div class="search-result" id="searchResult"></div>
                 </div>
@@ -440,7 +446,7 @@
                 <div class="form-item">
                     <label for="password">密码</label>
                     <input type="password" id="password" name="password" value="" placeholder="请输入密码">
-                    <div classs="password-strength" id="pwdStrength">密码过于简单</div>
+                    <div class="password-strength" id="pwdStrength">密码过于简单</div>
                 </div>
 
                 <div class="remember">
@@ -478,9 +484,9 @@
                 <!-- 视频播放区域 -->
                 <div id="img-play-container">
                     <ul class="imglist">
-                        <li><img src="/lab6/展销图片横.png" alt="宣传图"></li>
-                        <li><img src="/lab6/图书促销2.png" alt="宣传图"></li>
-                        <li><img src="/lab6/图书促销3.png" alt="宣传图"></li>
+                        <li><img src="lab6/展销图片横.png" alt="宣传图"></li>
+                        <li><img src="lab6/图书促销2.png" alt="宣传图"></li>
+                        <li><img src="lab6/图书促销3.png" alt="宣传图"></li>
                         <li><img src="/lab6/图书促销4.png" alt="宣传图"></li>
                         <li><img src="/lab6/图书促销图片.png" alt="宣传图"></li>
                     </ul>
@@ -489,12 +495,473 @@
                     </div>
                 </div>
                 <div class="time-bar" id="realTime"></div>
-                <div class="countdown-bar" id="countdown">限时抢购：距离活动结束还有 --天--时--分--秒</div>
+                <div class="ssjg">
+                    <table class="book-table">
+                        <thead>
+                            <tr>
+                                <th>书名</th>
+                                <th>作者</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bookTable">
+                            <!-- 1-10本 -->
+                            <tr><td class="book-title">活着</td><td class="book-author">余华</td></tr>
+                            <tr><td class="book-title">平凡的世界</td><td class="book-author">路遥</td></tr>
+                            <tr><td class="book-title">围城</td><td class="book-author">钱钟书</td></tr>
+                            <tr><td class="book-title">边城</td><td class="book-author">沈从文</td></tr>
+                            <tr><td class="book-title">骆驼祥子</td><td class="book-author">老舍</td></tr>
+                            <tr><td class="book-title">呐喊</td><td class="book-author">鲁迅</td></tr>
+                            <tr><td class="book-title">雷雨</td><td class="book-author">曹禺</td></tr>
+                            <tr><td class="book-title">家</td><td class="book-author">巴金</td></tr>
+                            <tr><td class="book-title">子夜</td><td class="book-author">茅盾</td></tr>
+                            <tr><td class="book-title">屈原</td><td class="book-author">郭沫若</td></tr>
+                            
+                            <!-- 11-20本 -->
+                            <tr><td class="book-title">朱自清散文精选</td><td class="book-author">朱自清</td></tr>
+                            <tr><td class="book-title">繁星·春水</td><td class="book-author">冰心</td></tr>
+                            <tr><td class="book-title">志摩的诗</td><td class="book-author">徐志摩</td></tr>
+                            <tr><td class="book-title">雨巷</td><td class="book-author">戴望舒</td></tr>
+                            <tr><td class="book-title">红烛</td><td class="book-author">闻一多</td></tr>
+                            <tr><td class="book-title">生活的艺术</td><td class="book-author">林语堂</td></tr>
+                            <tr><td class="book-title">雅舍小品</td><td class="book-author">梁实秋</td></tr>
+                            <tr><td class="book-title">人间草木</td><td class="book-author">汪曾祺</td></tr>
+                            <tr><td class="book-title">呼兰河传</td><td class="book-author">萧红</td></tr>
+                            <tr><td class="book-title">金锁记</td><td class="book-author">张爱玲</td></tr>
+                            
+                            <!-- 21-30本 -->
+                            <tr><td class="book-title">射雕英雄传</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">楚留香传奇</td><td class="book-author">古龙</td></tr>
+                            <tr><td class="book-title">人世间</td><td class="book-author">梁晓声</td></tr>
+                            <tr><td class="book-title">棋王</td><td class="book-author">阿城</td></tr>
+                            <tr><td class="book-title">沉默的大多数</td><td class="book-author">王小波</td></tr>
+                            <tr><td class="book-title">秦腔</td><td class="book-author">贾平凹</td></tr>
+                            <tr><td class="book-title">红高粱家族</td><td class="book-author">莫言</td></tr>
+                            <tr><td class="book-title">妻妾成群</td><td class="book-author">苏童</td></tr>
+                            <tr><td class="book-title">江南三部曲</td><td class="book-author">格非</td></tr>
+                            <tr><td class="book-title">额尔古纳河右岸</td><td class="book-author">迟子建</td></tr>
+                            
+                            <!-- 31-40本 -->
+                            <tr><td class="book-title">三体</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">解忧杂货店</td><td class="book-author">东野圭吾</td></tr>
+                            <tr><td class="book-title">空山</td><td class="book-author">阿来</td></tr>
+                            <tr><td class="book-title">尘埃落定</td><td class="book-author">阿来</td></tr>
+                            <tr><td class="book-title">穆斯林的葬礼</td><td class="book-author">霍达</td></tr>
+                            <tr><td class="book-title">金粉世家</td><td class="book-author">张恨水</td></tr>
+                            <tr><td class="book-title">啼笑因缘</td><td class="book-author">张恨水</td></tr>
+                            <tr><td class="book-title">倾城之恋</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">金锁记</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">半生缘</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">红玫瑰与白玫瑰</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">霸王别姬</td><td class="book-author">李碧华</td></tr>
+                            <tr><td class="book-title">青蛇</td><td class="book-author">李碧华</td></tr>
+                            <tr><td class="book-title">胭脂扣</td><td class="book-author">李碧华</td></tr>
+                            <tr><td class="book-title">三体II：黑暗森林</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">三体III：死神永生</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">球状闪电</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">超新星纪元</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">乡村教师</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">流浪地球</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">北京折叠</td><td class="book-author">郝景芳</td></tr>
+                            <tr><td class="book-title">观山海</td><td class="book-author">杉泽</td></tr>
+                            <tr><td class="book-title">山海经</td><td class="book-author">佚名</td></tr>
+                            <tr><td class="book-title">诗经</td><td class="book-author">佚名</td></tr>
+                            <tr><td class="book-title">楚辞</td><td class="book-author">屈原</td></tr>
+                            <tr><td class="book-title">史记</td><td class="book-author">司马迁</td></tr>
+                            <tr><td class="book-title">资治通鉴</td><td class="book-author">司马光</td></tr>
+                            <tr><td class="book-title">汉书</td><td class="book-author">班固</td></tr>
+                            <tr><td class="book-title">后汉书</td><td class="book-author">范晔</td></tr>
+                            <tr><td class="book-title">三国志</td><td class="book-author">陈寿</td></tr>
+                            <tr><td class="book-title">水浒传</td><td class="book-author">施耐庵</td></tr>
+                            <tr><td class="book-title">空山</td><td class="book-author">阿来</td></tr>
+                            <tr><td class="book-title">尘埃落定</td><td class="book-author">阿来</td></tr>
+                            <tr><td class="book-title">穆斯林的葬礼</td><td class="book-author">霍达</td></tr>
+                            <tr><td class="book-title">金粉世家</td><td class="book-author">张恨水</td></tr>
+                            <tr><td class="book-title">啼笑因缘</td><td class="book-author">张恨水</td></tr>
+                            <tr><td class="book-title">倾城之恋</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">金锁记</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">半生缘</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">红玫瑰与白玫瑰</td><td class="book-author">张爱玲</td></tr>
+                            <tr><td class="book-title">霸王别姬</td><td class="book-author">李碧华</td></tr>
+                            <tr><td class="book-title">青蛇</td><td class="book-author">李碧华</td></tr>
+                            <tr><td class="book-title">胭脂扣</td><td class="book-author">李碧华</td></tr>
+                            <tr><td class="book-title">三体II：黑暗森林</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">三体III：死神永生</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">球状闪电</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">超新星纪元</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">乡村教师</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">流浪地球</td><td class="book-author">刘慈欣</td></tr>
+                            <tr><td class="book-title">北京折叠</td><td class="book-author">郝景芳</td></tr>
+                            <tr><td class="book-title">观山海</td><td class="book-author">杉泽</td></tr>
+                            <tr><td class="book-title">山海经</td><td class="book-author">佚名</td></tr>
+                            <tr><td class="book-title">诗经</td><td class="book-author">佚名</td></tr>
+                            <tr><td class="book-title">楚辞</td><td class="book-author">屈原</td></tr>
+                            <tr><td class="book-title">史记</td><td class="book-author">司马迁</td></tr>
+                            <tr><td class="book-title">资治通鉴</td><td class="book-author">司马光</td></tr>
+                            <tr><td class="book-title">汉书</td><td class="book-author">班固</td></tr>
+                            <tr><td class="book-title">后汉书</td><td class="book-author">范晔</td></tr>
+                            <tr><td class="book-title">三国志</td><td class="book-author">陈寿</td></tr>
+                            <tr><td class="book-title">水浒传</td><td class="book-author">施耐庵</td></tr>
+                            <tr><td class="book-title">三国演义</td><td class="book-author">罗贯中</td></tr>
+                            <tr><td class="book-title">西游记</td><td class="book-author">吴承恩</td></tr>
+                            <tr><td class="book-title">红楼梦</td><td class="book-author">曹雪芹</td></tr>
+                            <tr><td class="book-title">儒林外史</td><td class="book-author">吴敬梓</td></tr>
+                            <tr><td class="book-title">聊斋志异</td><td class="book-author">蒲松龄</td></tr>
+                            <tr><td class="book-title">封神演义</td><td class="book-author">许仲琳</td></tr>
+                            <tr><td class="book-title">镜花缘</td><td class="book-author">李汝珍</td></tr>
+                            <tr><td class="book-title">官场现形记</td><td class="book-author">李宝嘉</td></tr>
+                            <tr><td class="book-title">二十年目睹之怪现状</td><td class="book-author">吴趼人</td></tr>
+                            <tr><td class="book-title">老残游记</td><td class="book-author">刘鹗</td></tr>
+                            <tr><td class="book-title">孽海花</td><td class="book-author">曾朴</td></tr>
+                            <tr><td class="book-title">天龙八部</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">射雕英雄传</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">神雕侠侣</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">倚天屠龙记</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">笑傲江湖</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">鹿鼎记</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">碧血剑</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">书剑恩仇录</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">雪山飞狐</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">飞狐外传</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">连城诀</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">侠客行</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">越女剑</td><td class="book-author">金庸</td></tr>
+                            <tr><td class="book-title">多情剑客无情剑</td><td class="book-author">古龙</td></tr>
+                            <tr><td class="book-title">楚留香传奇</td><td class="book-author">古龙</td></tr>
+                            <tr><td class="book-title">陆小凤传奇</td><td class="book-author">古龙</td></tr>
+                            <tr><td class="book-title">绝代双骄</td><td class="book-author">古龙</td></tr>
+                            <tr><td class="book-title">小李飞刀</td><td class="book-author">古龙</td></tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div class="recommend-section">
                     <div class="recommend-header">
                         <h2>随机图书推荐</h2>
+                        <button id="refreshRecommend">换一批</button>
                     </div>
-                    <div class="book-list" id="recommendBooks"></div>
+                    <div class="sj-list" id="recommendBooks">
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="机器时代1.png" alt="设计思维">
+                                        <div class="sj-name">机器时代</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">机器时代</div>
+                                        <ul>
+                                            <li>作者：许怡</li>
+                                            <li>出版社：北京大学出版社</li>
+                                            <li>价格：¥65.00</li>
+                                            <li>评分：8.5</li>
+                                            <li>简介：聚焦企业 “机器换人” 现象，通过田野调查与案例分析，探讨技术变革对劳动者的影响，兼具学术性与现实意义。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="生死疲劳1.webp" alt="设计思维">
+                                        <div class="sj-name">生死疲劳</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">生死疲劳</div>
+                                        <ul>
+                                            <li>作者：莫言</li>
+                                            <li>出版社：浙江文艺出版社</li>
+                                            <li>价格：¥69.90</li>
+                                            <li>评分：8.6</li>
+                                            <li>简介：以六道轮回为叙事框架，讲述地主西门闹历经六世（驴、牛、猪等），见证从土改到改革开放的乡村变迁，荒诞中藏着历史的厚重与人性的复杂。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="我以为这辈子完蛋了.jpg" alt="设计思维">
+                                        <div class="sj-name">我以为这辈子完蛋了</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">我以为这辈子完蛋了</div>
+                                        <ul>
+                                            <li>作者：艾莉・布罗什</li>
+                                            <li>出版社：花城出版社</li>
+                                            <li>价格：¥52.00</li>
+                                            <li>评分：8.6</li>
+                                            <li>简介：自传式漫画散文集，用搞笑又戳心的故事，讲述成长中的困惑与治愈，适合所有与自我和解的读者。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="白夜行.jpg" alt="设计思维">
+                                        <div class="sj-name">白夜行</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">白夜行</div>
+                                        <ul>
+                                            <li>作者：东野圭吾</li>
+                                            <li>出版社：南海出版社</li>
+                                            <li>价格：¥39.80</li>
+                                            <li>评分：8.9</li>
+                                            <li>简介：自传式漫画散文集，用搞笑又戳心的故事，讲述成长中的困惑与治愈，适合所有与自我和解的读者。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="思考，快与慢.jpeg" alt="设计思维">
+                                        <div class="sj-name">思考，快与慢</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">思考，快与慢</div>
+                                        <ul>
+                                            <li>作者：丹尼尔・卡尼曼</li>
+                                            <li>出版社：中信出版社</li>
+                                            <li>价格：¥69.00</li>
+                                            <li>评分：8.1</li>
+                                            <li>简介：自传式漫画散文集，用搞笑又戳心的故事，讲述成长中的困惑与治愈，适合所有与自我和解的读者。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="平凡的世界.jpg" alt="设计思维">
+                                        <div class="sj-name">平凡的世界</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">平凡的世界</div>
+                                        <ul>
+                                            <li>作者：路遥</li>
+                                            <li>出版社：人民文学出版社</li>
+                                            <li>价格：¥78.00</li>
+                                            <li>评分：9.0</li>
+                                            <li>简介：自传式漫画散文集，用搞笑又戳心的故事，讲述成长中的困惑与治愈，适合所有与自我和解的读者。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="杀死一只知更鸟.webp" alt="设计思维">
+                                        <div class="sj-name">杀死一只知更鸟</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">杀死一只知更鸟</div>
+                                        <ul>
+                                            <li>作者：哈珀・李</li>
+                                            <li>出版社：译林出版社</li>
+                                            <li>价格：¥45.00</li>
+                                            <li>评分：9.3</li>
+                                            <li>简介：以孩童视角讲述律师芬奇为黑人辩护的故事，探讨种族歧视、正义与良知，传递善良与勇气的力量。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="房思琪的初恋乐园.webp" alt="设计思维">
+                                        <div class="sj-name">房思琪的初恋乐园</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">房思琪的初恋乐园</div>
+                                        <ul>
+                                            <li>作者：林奕含</li>
+                                            <li>出版社：北京联合出版公司</li>
+                                            <li>价格：¥45.00</li>
+                                            <li>评分：9.2</li>
+                                            <li>简介：13 岁文学少女房思琪被补习班老师李国华诱奸并长期精神控制，最终崩溃，也展现了其他女性的困境，控诉性暴力与社会沉默。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="时间简史.jpg" alt="设计思维">
+                                        <div class="sj-name">时间简史</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">时间简史</div>
+                                        <ul>
+                                            <li>作者：霍金</li>
+                                            <li>出版社：湖南科学技术出版社</li>
+                                            <li>价格：¥45.00</li>
+                                            <li>评分：8.8</li>
+                                            <li>简介：以通俗语言阐释宇宙起源、黑洞、时空弯曲等前沿理论，探索时间本质与宇宙命运，兼具科学性与可读性。。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="中国通史.jpg" alt="设计思维">
+                                        <div class="sj-name">中国通史</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">中国通史</div>
+                                        <ul>
+                                            <li>作者：吕思勉</li>
+                                            <li>出版社：中华书局</li>
+                                            <li>价格：¥78.00</li>
+                                            <li>评分：9.0</li>
+                                            <li>简介：以时间为脉络，结合政治、经济、文化、民族等多维度，展现中华民族数千年的兴衰演变与文明传承。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="万历十五年.jpg" alt="设计思维">
+                                        <div class="sj-name">万历十五年</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">万历十五年</div>
+                                        <ul>
+                                            <li>作者：黄仁宇</li>
+                                            <li>出版社：中华书局</li>
+                                            <li>价格：¥28.00</li>
+                                            <li>评分：9.1</li>
+                                            <li>简介：通过万历皇帝、张居正等人物的命运，用 “大历史观” 揭示明朝制度僵化与衰落的深层原因。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="菊与刀.webp" alt="设计思维">
+                                        <div class="sj-name">菊与刀</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">菊与刀</div>
+                                        <ul>
+                                            <li>作者：鲁思・本尼迪克特</li>
+                                            <li>出版社：商务印书馆</li>
+                                            <li>价格：¥39.00</li>
+                                            <li>评分：8.9</li>
+                                            <li>简介：以文化人类学视角剖析日本 “菊”（文雅）与 “刀”（尚武）的矛盾国民性格。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="乌合之众.jpg" alt="设计思维">
+                                        <div class="sj-name">乌合之众</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">乌合之众</div>
+                                        <ul>
+                                            <li>作者：古斯塔夫・勒庞</li>
+                                            <li>出版社：中央编译出版社</li>
+                                            <li>价格：¥32.80</li>
+                                            <li>评分：8.1</li>
+                                            <li>简介：社会心理学经典，勒庞剖析群体心理：个体融入群体易丧失理性、盲从冲动，是理解群体行为与舆论的必读之作。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                        <div class="sj-unit">
+                            <div class="sjb-item">
+                                <div class="sj">
+                                    <div class="sjbimg">
+                                        <img src="梦的解析.jpg" alt="设计思维">
+                                        <div class="sj-name">梦的解析</div>
+                                    </div>
+                                    <div class="sjbback">
+                                        <div class="sj-title">梦的解析</div>
+                                        <ul>
+                                            <li>作者：弗洛伊德</li>
+                                            <li>出版社：商务印书馆</li>
+                                            <li>价格：¥58.00</li>
+                                            <li>评分：8.2</li>
+                                            <li>简介：精神分析学派的经典著作，弗洛伊德通过对梦的探索，提出潜意识、本我 / 自我 / 超我等核心理论，揭示梦是潜意识欲望的满足，打破了传统对梦的神秘解读，为现代心理学奠定重要基础，是理解人类心理与行为的必读经典。</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>    
+                            <div class="sj-to-card">
+                                <button class="sjb-to-cart"><img src="/lab6/购物车.png" alt="购物车图标" width="20px" height="20px" class="sj-to-cart-img"> 加入购物车</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- 筛选栏（图二样式：无箭头、无背景） -->
                 <div class="filter-bar">
@@ -718,6 +1185,14 @@
 
             <!-- 右侧栏 -->
             <div class="right">
+                <div class="countdown-bar" id="countdown">
+                    <h2>限时抢购</h2>
+                    <h4>距离活动结束还有</h4>
+                    <span class="dayspan"></span>
+                    <span class="hourspan"></span>
+                    <span class="minutespan"></span>
+                    <span class="secondspan"></span>
+                </div>
                 <div class="box3">
                     <h3>活动期间优惠</h3> 
                     <ul>
@@ -805,76 +1280,133 @@
     </body>
     <foot>
         <script>
-            var bookList = [
-                {name:"未知的探索",author:"罗利建",category:"科技",price:68.00,score:4.8},
-                {name:"月亮和六便士",author:"毛姆",category:"文学",price:48.00,score:4.9},
-                {name:"子夜",author:"茅盾",category:"文学",price:58.00,score:4.7},
-                {name:"活着",author:"余华",category:"文学",price:56.00,score:4.9},
-                {name:"Web开发",author:"小甲鱼",category:"科技",price:59.00,score:4.6},
-                {name:"设计思维",author:"付志勇",category:"艺术",price:45.00,score:3.0},
-                {name:"数据分析",author:"颜锦江",category:"科技",price:69.00,score:4.0},
-                {name:"计算机图形学",author:"Donald Hearn",category:"科技",price:68.00,score:5.0},
-                {name:"计算机控制技术",author:"傅永峰，张聚",category:"科技",price:53.00,score:4.0},
-                {name:"Java Web开发",author:"明日科技",category:"科技",price:63.00,score:4.0}
-            ]
-            function User(username,loginStatus,cart){
-                this.username=username;
-                this.loginStatus=loginStatus;
-                this.cart=cart;
-                this.login=function(){this.loginStatus=true; };
-                this.addToCart=function(book){this.cart.push(book);};
+        //1.搜索功能实现
+        var searchInput = document.querySelector(".search-txt");
+        var searchBtn = document.querySelector(".search-btn"); 
+        var searchResult = document.getElementById("searchResult"); 
+        var searchFilter = document.getElementById("search-filter"); 
+        var bookTableBody = document.querySelector(".bookTable"); 
+        var allBookRows = bookTableBody.getElementsByTagName("tr");
+
+        // 初始化图书数据
+        var bookData = [];
+        for (var i = 0; i < allBookRows.length; i++) {
+            var row = allBookRows[i];
+            var title = row.querySelector(".book-title").textContent;//在row元素内部查找类名为"book-title"的元素,获取该元素的文本内容
+            var author = row.querySelector(".book-author").textContent;
+            bookData.push({ title: title, author: author });//用于向数组的末尾添加一个或多个元素
+        }
+
+        function highlightKeyword(text, keyword) {
+            if (!keyword) return text;
+            var lowerText = text.toLowerCase();//将字符串转换为小写
+            var lowerKeyword = keyword.toLowerCase();
+            var index = lowerText.indexOf(lowerKeyword);//查找元素第一次出现的位置
+            if (index === -1) return text;
+            var before = text.substring(0, index);//提取匹配关键词之前的文本部分
+            var match = text.substring(index, index + keyword.length);
+            var after = text.substring(index + keyword.length);
+            // 修复闭合标签：</span> 不是 <span>
+            return before + '<span class="highlight">' + match + '</span>' + after;
+        }
+
+        
+        function renderResults(matches) {
+            if (matches.length === 0) {//没有找到匹配项的常见写法
+                searchResult.innerHTML = '<div class="search-result-item">无匹配结果</div>';
+                return;
             }
-            var currentUser=new User("",false,[]);
-            var searchInput=document.querySelector('.search-txt');
-            var searchResult=document.getElementById('searchResult');
-            var searchType=document.getElementsByName('search-type');
-            searchInput.addEventListener('input',function(){
-                var keyword=this.value.trim().toLowerCase();
-                if(!keyword){
-                    searchResult.style.display='none';
-                    return;
+            var html = "";
+            var keyword = searchInput.value.trim();//.value：获取输入框的值
+            for (var i = 0; i < matches.length; i++) {
+                var book = matches[i];
+                var title = highlightKeyword(book.title, keyword); 
+                var author = highlightKeyword(book.author, keyword); 
+                html += '<div class="search-result-item" data-title="' + book.title + '" data-author="' + book.author + '">';
+                html += '书名：' + title + '<br>';
+                html += '作者：' + author;
+                html += '</div>';
+            }
+            searchResult.innerHTML = html;
+        }
+
+        // 合并重复的 searchBooks 函数（保留核心逻辑）
+        function searchBooks() {
+            var keyword = searchInput.value.trim();
+            var filterType = searchFilter.value;
+            var matches = [];
+
+            // 无关键词时隐藏结果框
+            if (!keyword) {
+                searchResult.style.display = "none";
+                return;
+            }
+
+            // 筛选匹配的图书
+            for (var i = 0; i < bookData.length; i++) {
+                var book = bookData[i];
+                var titleMatch = book.title.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+                var authorMatch = book.author.toLowerCase().indexOf(keyword.toLowerCase()) !== -1;
+                var isMatch = false;
+
+                if (filterType === "shuming") {
+                    isMatch = titleMatch;
+                } else if (filterType === "zuozhe") {
+                    isMatch = authorMatch;
+                } else {
+                    isMatch = titleMatch || authorMatch;
                 }
-                let type='name';
-                for(let item of searchType){
-                    if(item.checked){type=item.value;break;}
+
+                if (isMatch) {
+                    matches.push(book);
                 }
-                const result = bookList.filter(book => { 
-                return book[type].toLowerCase().includes(keyword); 
-            }); 
+            }
 
-            // 清空并渲染结果
-            searchResult.innerHTML = ''; 
-            if (result.length === 0) { 
-                const emptyItem = document.createElement('div'); 
-                emptyItem.className = 'search-result-item'; 
-                emptyItem.innerText = '无匹配图书'; 
-                searchResult.appendChild(emptyItem);
-            } else {
-                result.forEach(book => { 
-                    const item = document.createElement('div'); 
-                    item.className = 'search-result-item';
-                    item.innerText = `${book.name}（作者：${book.author}，分类：${book.category}，¥${book.price}）`; 
-                    searchResult.appendChild(item); 
-                }); 
-            } 
-            searchResult.style.display = 'block';
-        }); // 新增
+            // 显示结果框并渲染
+            searchResult.style.display = "block";
+            renderResults(matches);
+        }
 
-        // 点击页面其他区域关闭搜索结果
-        document.addEventListener('click', function(e) { 
-            if (!e.target.closest('.search-box')) { 
-                searchResult.style.display = 'none'; 
-            } 
-        }); 
-
+        // 绑定事件
+        // 输入框实时搜索
+        searchInput.oninput = function() {
+            searchBooks();
+        };
+        // 搜索按钮点击（阻止默认跳转）
+        searchBtn.onclick = function(e) {
+            e.preventDefault();
+            searchBooks();
+        };
+        // 回车键触发搜索
+        searchInput.onkeypress = function(e) {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                searchBooks();
+            }
+        };
+        // 点击结果项填充搜索框
+        searchResult.onclick = function(e) {
+            var item = e.target.closest(".search-result-item");
+            if (item) {
+                searchInput.value = item.dataset.title;
+                searchResult.style.display = "none";
+            }
+        };
+        // 点击页面空白隐藏结果框（新增：提升体验）
+        document.addEventListener("click", function(e) {
+            var searchBox = document.querySelector(".search-box");
+            if (!searchBox.contains(e.target)) {
+                searchResult.style.display = "none";
+            }
+        });
 
 
         
-        // 3. 登录表单验证（满足任务要求：正则、实时反馈）
+        //2.登录表单验证
         var userInput = document.getElementById("user"); 
         var pwdInput = document.getElementById("password"); 
         var pwdStrength = document.getElementById("pwdStrength"); 
-        //me
+        
         userInput.onblur=checkname;
         function checkname(){
             var val = userInput.value.trim();
@@ -913,92 +1445,68 @@
                 alert("请检查账号或密码格式！");
             }
         }
+        //3.限时抢购
+        var dayspan=document.querySelector('.dayspan'),
+            hourspan=document.querySelector('.hourspan'),
+            minutespan=document.querySelector('.minutespan'),
+            secondspan=document.querySelector('.secondspan'),
+            deadline=new Date('2026-1-31 00:00:00');
+        function countdown(){
+            var now=new Date();
+            timeRemaining=deadline-now;
+            let day,hour,minute,second;
+            if(timeRemaining<0){return 0;}
+            second=Math.floor(timeRemaining/1000%60);
+            minute=Math.floor(timeRemaining/1000/60%60);
+            hour=Math.floor(timeRemaining/1000/60/60%24);
+            day=Math.floor(timeRemaining/1000/60/60/24);
+            dayspan.innerHTML=day+'天';
+            hourspan.innerHTML=hour+'小时';
+            minutespan.innerHTML=minute+'分';
+            secondspan.innerHTML=second+'秒';
+            setTimeout(countdown,1000)
+        }
+        countdown();
+        //4.当前时间
+        function time(){
+            var date=new Date();
+            var time=document.getElementById("realTime");
+            var year=date.getFullYear();
+            var month=date.getMonth()+1;
+            var day=date.getDate();
+            var hour=date.getHours().toString().padStart(2, '0');
+            var minute=date.getMinutes().toString().padStart(2, '0');
+            var second=date.getSeconds().toString().padStart(2, '0');
+            var week = ['日','一','二','三','四','五','六'][date.getDay()];
 
-        function initCountdown(){
-            const endTime = new Date('2025-12-31 23:59:59');
-            const countdownEl = document.getElementById('countdown');
-
-            function updateCountdown() {
-                const diffMs = endTime - new Date();
-                if (diffMs <= 0) {
-                    countdownEl.textContent = '限时抢购：活动已结束';
-                    clearInterval(countdownTimer);
-                    return;
-                }
-                const days = Math.floor(diffMs / (1000*60*60*24));
-                const hours = String(Math.floor((diffMs % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
-                const minutes = String(Math.floor((diffMs % (1000*60*60))/(1000*60))).padStart(2, '0');
-                const seconds = String(Math.floor((diffMs % (1000*60))/1000)).padStart(2, '0');
-                countdownEl.textContent = 
-                    `限时抢购：距离活动结束还有 ${days}天${hours}时${minutes}分${seconds}秒`;
+            time.innerText=year+'年'+month+'月'+day+'日   星期'+week+'  '+hour+":"+minute+":"+second;
+        }
+        time();
+        setInterval(time, 1000);
+        //5.随机推荐
+        var hyp=document.getElementById("refreshRecommend");
+        var ts=document.getElementsByClassName("sj-unit");
+        function randomRecommend(){
+            for(var i=0;i<ts.length;i++){
+                ts[i].style.display="none";
             }
-        
-        setTimeout(() => {
-                    updateCountdown();
-                    window.countdownTimer = setInterval(updateCountdown, 1000);
-                }, 100);
-            }
-            initCountdown();
-
-        function updateRealTime() {
-                const now = new Date();
-                const year = now.getFullYear();
-                const month = String(now.getMonth() + 1).padStart(2, '0');
-                const date = String(now.getDate()).padStart(2, '0');
-                const week = ['日','一','二','三','四','五','六'][now.getDay()];
-                const hours = String(now.getHours()).padStart(2, '0');
-                const minutes = String(now.getMinutes()).padStart(2, '0');
-                const seconds = String(now.getSeconds()).padStart(2, '0');
-                document.getElementById('realTime').textContent = 
-                    `${year}-${month}-${date} 星期${week} ${hours}:${minutes}:${seconds}`;
-            }
-            updateRealTime();
-            setInterval(updateRealTime, 1000);
-           
-            function initCountdown(){
-                const endTime = new Date('2025-12-31 23:59:59');
-                const countdownEl = document.getElementById('countdown');
-
-                function updateCountdown() {
-                    const diffMs = endTime - new Date();
-                    if (diffMs <= 0) {
-                        countdownEl.textContent = '限时抢购：活动已结束';
-                        clearInterval(countdownTimer);
-                        return;
-                    }
-                    const days = Math.floor(diffMs / (1000*60*60*24));
-                    const hours = String(Math.floor((diffMs % (1000*60*60*24))/(1000*60*60))).padStart(2, '0');
-                    const minutes = String(Math.floor((diffMs % (1000*60*60))/(1000*60))).padStart(2, '0');
-                    const seconds = String(Math.floor((diffMs % (1000*60))/1000)).padStart(2, '0');
-                    countdownEl.textContent = 
-                        `限时抢购：距离活动结束还有 ${days}天${hours}时${minutes}分${seconds}秒`;
+            var randomIndexes=[];
+            while(randomIndexes.length<3){
+                var randomIdx=Math.floor(Math.random()*ts.length);
+                if(!randomIndexes.includes(randomIdx)){
+                    randomIndexes.push(randomIdx);
                 }
-
-            setTimeout(() => {
-                        updateCountdown();
-                        window.countdownTimer = setInterval(updateCountdown, 1000);
-                    }, 100);
-                }
-                initCountdown();
-
-            function updateRealTime() {
-                    const now = new Date();
-                    const year = now.getFullYear();
-                    const month = String(now.getMonth() + 1).padStart(2, '0');
-                    const date = String(now.getDate()).padStart(2, '0');
-                    const week = ['日','一','二','三','四','五','六'][now.getDay()];
-                    const hours = String(now.getHours()).padStart(2, '0');
-                    const minutes = String(now.getMinutes()).padStart(2, '0');
-                    const seconds = String(now.getSeconds()).padStart(2, '0');
-                    document.getElementById('realTime').textContent = 
-                        `${year}-${month}-${date} 星期${week} ${hours}:${minutes}:${seconds}`;
-    }
-    updateRealTime();
-    setInterval(updateRealTime, 1000);
-
-    
-    
-
+            }
+            for(var j=0;j<randomIndexes.length;j++){
+                ts[randomIndexes[j]].style.display="block";
+            }
+        }
+        window.onload=function(){
+            randomRecommend();
+        }
+        hyp.onclick=function(){
+            randomRecommend();
+        }
         </script>
     </foot>
 </html>
