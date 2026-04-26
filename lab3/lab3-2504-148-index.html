@@ -338,5 +338,61 @@
       </div>
     </div>
   </div>
+  <script>
+  let userList = JSON.parse(localStorage.getItem("userData")) || [];
+  const registerForm = document.getElementById("registerForm");
+  registerForm.addEventListener("submit",function(e){
+    e.preventDefault();
+    let username = document.getElementById("reg-username").value.trim();
+    let pwd = document.getElementById("reg-password").value;
+    let pwd2 = document.getElementById("reg-password2").value;
+
+  
+    if(!username || !pwd || !pwd2){
+      alert("用户名和密码不能为空！");
+      return;
+    }
+    // 两次密码一致
+    if(pwd !== pwd2){
+      alert("两次输入密码不一致！");
+      return;
+    }
+    // 判断用户名是否已注册
+    let hasUser = userList.find(item => item.name === username);
+    if(hasUser){
+      alert("该用户名已注册，请更换！");
+      return;
+    }
+    userList.push({
+      name:username,
+      pwd:pwd
+    });
+    localStorage.setItem("userData",JSON.stringify(userList));
+    alert("注册成功！请前往登录");
+    registerForm.reset();
+    document.getElementById("tab-login").checked = true;
+  })
+  const loginForm = document.getElementById("loginform");
+  loginForm.addEventListener("submit",function(e){
+    e.preventDefault();
+    let loginName = document.getElementById("login-username").value.trim();
+    let loginPwd = document.getElementById("login-password").value;
+    let code = document.getElementById("login-number").value;
+
+    if(!loginName || !loginPwd || !code){
+      alert("请完善所有登录信息！");
+      return;
+    }
+    // 本地存储比对验证
+    let loginUser = userList.find(item => item.name === loginName && item.pwd === loginPwd);
+    if(loginUser){
+      alert("登录成功！欢迎进入数字图书展销平台");
+      document.getElementById("modal-toggle").checked = false;
+      loginForm.reset();
+    }else{
+      alert("用户名或密码错误，请检查！");
+    }
+  })
+</script>
 </body>
 </html>
